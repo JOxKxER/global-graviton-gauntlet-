@@ -13,6 +13,8 @@
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
             --success-color: #238636;
+            --warning-color: #d29922;
+            --danger-color: #f85149;
             --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
         body {
@@ -74,6 +76,17 @@
             margin-bottom: 15px;
             font-size: 13px;
         }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .status-checking { background-color: var(--warning-color); color: #000; }
+        .status-connected { background-color: var(--success-color); color: #fff; }
+        .status-disconnected { background-color: var(--danger-color); color: #fff; }
         code {
             background-color: #21262d;
             padding: 2px 6px;
@@ -103,6 +116,22 @@
             margin-top: 5px;
             margin-bottom: 15px;
         }
+        .advanced-toggle {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 0;
+            font-size: 14px;
+            text-decoration: underline;
+            margin-bottom: 15px;
+        }
+        #advanced-panel {
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -119,11 +148,11 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.3.1)</p>
+        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.3.2)</p>
     </header>
     
     <div class="container">
-        <!-- The #GGG Manifesto Panel with Creative Expansion -->
+        <!-- The #GGG Manifesto Panel -->
         <div class="panel">
             <h2>📜 The #GGG Manifesto: Proof of the Edge Revolution</h2>
             <div class="manifesto-box">
@@ -146,7 +175,6 @@
                     Mr. President, please protect big tech's money scheme! 🤣 <em>(Note: The playful plea for the President to help big tech save their extractive cloud empire is strictly tongue-in-cheek sarcasm! If anything, Mr. President, you can help me help you change the world! 👍🏼)</em> The era of pay-gated human progress is over. It’s time to build from the middle out. Find the Graviton way.
                 </p>
 
-                <!-- Detailed Blueprint for Automated Businesses, App Ideas & Commercial Licensing -->
                 <div class="blueprint-box">
                     🚀 <strong>How to Use This Site: Building, Accessible Hardware & Autonomous Profit Machines</strong><br>
                     <p style="margin: 8px 0 6px 0;">
@@ -160,7 +188,6 @@
                     </ul>
                 </div>
                 
-                <!-- Business Contact Information -->
                 <div class="contact-box">
                     💼 <strong>Enterprise Licensing & Business Opportunities:</strong><br>
                     Looking to secure a commercial business license, integrate air-gapped sovereign architectures into creative or industrial software ecosystems, or partner on commercial app distribution? Reach out directly to Garza Global Graviton LLC at <a href="mailto:garzaglobalgravitonllc@gmail.com" style="color: var(--accent-color);">garzaglobalgravitonllc@gmail.com</a>.
@@ -168,58 +195,46 @@
             </div>
         </div>
 
-        <!-- Connecting Your Local AI Guide Panel -->
+        <!-- Onboarding & Connection Guide Panel -->
         <div class="panel">
-            <h2>🔌 Connecting Your Local AI System</h2>
-            <p style="color: var(--text-muted); margin-top: 5px;">
-                Bring your own local model to test prompts, explore software ideas, or see if your setup can beat our reference benchmarks:
+            <h2>🔌 Local AI Connection Assistant</h2>
+            <div id="connection-status" class="status-badge status-checking">Checking Local AI Status...</div>
+            <p style="color: var(--text-muted); margin-top: 0;">
+                Your local model runs directly on your hardware. Follow these quick steps if your status shows disconnected:
             </p>
             <div class="help-box">
-                <strong>Step 1: Install & Pull a Model</strong><br>
-                Install <a href="https://ollama.com" target="_blank" style="color: var(--accent-color);">Ollama</a>, then run: <code>ollama pull llama3</code>
+                <strong>Step 1: Install & Run Ollama</strong><br>
+                Download and open <a href="https://ollama.com" target="_blank" style="color: var(--accent-color);">Ollama</a>, and make sure a model like <code>llama3</code> or <code>qwen2.5-coder:7b</code> is downloaded.
             </div>
             <div class="help-box">
-                <strong>Step 2: Enable Browser Access (CORS Fix)</strong><br>
-                Run this in your terminal so this web app can connect to your machine: <code>launchctl setenv OLLAMA_ORIGINS "*"</code> (Mac) or set environment variable <code>OLLAMA_ORIGINS="*"</code> (Windows/Linux), then restart Ollama.
+                <strong>Step 2: Fix CORS Browser Block (One-Time Setup)</strong><br>
+                Open Windows/Mac environment variables, add <code>OLLAMA_ORIGINS</code> with value <code>*</code>, and restart Ollama from your system tray.
             </div>
+            <button class="btn-secondary" onclick="checkOllamaConnection()">Re-check Connection Now</button>
         </div>
 
-        <!-- Harness Control Panel with Explicit #GGG Challenge Benchmarks & Milestones -->
+        <!-- Harness Control Panel -->
         <div class="panel">
             <h2>Harness Control & Builder Panel</h2>
 
             <div class="benchmark-target">
                 🏆 <strong>The #GGG Challenge: Benchmarks & Milestones to Beat:</strong>
                 <p style="margin: 8px 0; color: var(--text-color);">
-                    <strong>Execution Profile:</strong> 100% local hardware execution on accessible consumer desktops under absolute air-gapped security. All tasks run locally on your device utilizing your hardware with <strong>$0.00 infrastructure cost</strong>.
+                    <strong>Execution Profile:</strong> 100% local hardware execution on accessible consumer desktops under absolute air-gapped security with <strong>$0.00 infrastructure cost</strong>.
                 </p>
-                <p style="margin: 8px 0; color: var(--text-color);">
-                    <strong>Competitor Cost & Latency Disadvantage:</strong> Centralized cloud platforms impose recurring subscription and API token fees ($20–$100+/month) while suffering from high network round-trip bottlenecks. #GGG eliminates cloud overhead entirely.
-                </p>
-                <strong>Specific #GGG Reference Milestones & Benchmarks to Beat:</strong>
+                <strong>Specific #GGG Reference Milestones to Beat:</strong>
                 <ul style="margin: 5px 0 0 20px; padding: 0; color: var(--text-muted);">
-                    <li><strong>⚡ Speed & Latency Benchmark:</strong> Achieve average local generation latency of <strong>Sub-0.45s</strong> (defeating standard 500ms–2,000ms+ cloud API round-trips).</li>
-                    <li><strong>🧠 Logic & Code Parsing Milestone:</strong> Attain <strong>100% accuracy</strong> in multi-line code parsing and single-file app generation offline.</li>
-                    <li><strong>🛰️ Decentralized Mesh Milestone:</strong> Maintain packet propagation delay and routing table convergence under <strong>15ms</strong> across dynamic topologies.</li>
-                    <li><strong>🛡️ Cybersecurity & Zero-Trust Milestone:</strong> Execute automated threat isolation and vulnerability containment in under <strong>50ms</strong> with zero-day isolation.</li>
-                    <li><strong>🛸 Creative & Production Pipeline Milestone:</strong> Execute zero-latency local media, audio, or game asset generation scripts completely air-gapped without third-party throttling.</li>
+                    <li><strong>⚡ Speed & Latency Benchmark:</strong> Sub-0.45s local generation latency.</li>
+                    <li><strong>🧠 Logic & Code Parsing Milestone:</strong> 100% accuracy in offline single-file app generation.</li>
+                    <li><strong>🛸 Creative & Production Pipeline Milestone:</strong> Zero-latency local media, audio, or game asset generation scripts.</li>
                 </ul>
             </div>
             
             <label for="mode">Operating Mode:</label>
             <select id="mode">
                 <option value="benchmark">Gauntlet Benchmark (Score & Test)</option>
-                <option value="builder">Collaborative Builder (Explore Creative Apps, Games, Music & In-House Tools)</option>
+                <option value="builder">Collaborative Builder (Explore Creative Apps, Games, Music & Tools)</option>
             </select>
-
-            <label for="provider">Provider Preset:</label>
-            <select id="provider">
-                <option value="ollama">Ollama (Local)</option>
-                <option value="openai">OpenAI-Compatible</option>
-            </select>
-
-            <label for="endpoint">Endpoint URL:</label>
-            <input type="text" id="endpoint" value="http://localhost:11434/v1/chat/completions">
 
             <label for="model">Model Identifier:</label>
             <input type="text" id="model" value="llama3">
@@ -227,16 +242,29 @@
             <label for="seed-select">Optional Suggestions (Click to load prompt ideas, or type freely):</label>
             <select id="seed-select" onchange="loadSeed(this.value)">
                 <option value="">-- Choose an optional suggestion --</option>
+                <option value="generic">Generic Test Widget: Estimate manufacturing parameters with clean single-file HTML/JS code.</option>
                 <option value="creative">Creative Studio Builder: Design a custom local app for music production, indie game dev, or movie editing.</option>
                 <option value="machine">Build an Autonomous Machine: Connect a 3D printer and local AI to create a profit-generating workshop.</option>
-                <option value="challenge">Challenge #GGG Benchmarks: Test your model against specific latency, mesh, and security milestones.</option>
-                <option value="business">Enterprise Integration Strategy: Propose an industrial suite ecosystem integration model to eliminate cloud costs.</option>
+                <option value="challenge">Challenge #GGG Benchmarks: Test your model against specific latency and security milestones.</option>
             </select>
 
             <label for="prompt">Test Prompt / Software Idea / Strategy:</label>
-            <textarea id="prompt" rows="5">Describe your unique creative app idea, game concept, music studio utility, or hardware setup on how to leverage air-gapped local execution and beat the #GGG benchmarks.</textarea>
+            <textarea id="prompt" rows="5">Act as a local software assistant. Analyze my current offline hardware environment and output a clean, single-file HTML/JS calculator widget for estimating manufacturing parameters.</textarea>
 
-            <div style="display: flex; gap: 10px;">
+            <!-- Advanced Expert Settings Toggle -->
+            <button class="advanced-toggle" onclick="toggleAdvancedSettings()">⚙️ Toggle Advanced / Expert Settings</button>
+            <div id="advanced-panel">
+                <label for="provider">Provider Preset:</label>
+                <select id="provider">
+                    <option value="ollama">Ollama (Local)</option>
+                    <option value="openai">OpenAI-Compatible</option>
+                </select>
+
+                <label for="endpoint">Endpoint URL:</label>
+                <input type="text" id="endpoint" value="http://localhost:11434/api/chat">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <button id="run-btn" style="flex: 2;">Run Gauntlet / Send to Local AI</button>
                 <button id="share-btn" class="btn-secondary" style="flex: 1;" onclick="shareChallenge()">Share Prompt Link</button>
             </div>
@@ -266,16 +294,40 @@
     </div>
 
     <script>
+        function toggleAdvancedSettings() {
+            const panel = document.getElementById('advanced-panel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        async function checkOllamaConnection() {
+            const badge = document.getElementById('connection-status');
+            badge.className = 'status-badge status-checking';
+            badge.textContent = 'Checking Local AI Status...';
+            
+            try {
+                const response = await fetch('http://localhost:11434/api/tags', { method: 'GET' });
+                if (response.ok) {
+                    badge.className = 'status-badge status-connected';
+                    badge.textContent = '🟢 Local AI Connected (Ollama Online)';
+                } else {
+                    throw new Error('Not ok');
+                }
+            } catch (err) {
+                badge.className = 'status-badge status-disconnected';
+                badge.textContent = '🔴 Disconnected (Check Ollama & CORS Settings)';
+            }
+        }
+
         function loadSeed(val) {
             const promptBox = document.getElementById('prompt');
-            if (val === 'creative') {
+            if (val === 'generic') {
+                promptBox.value = "Act as a local software assistant. Analyze my current offline hardware environment and output a clean, single-file HTML/JS calculator widget for estimating manufacturing parameters.";
+            } else if (val === 'creative') {
                 promptBox.value = "Act as an expert software architect. Help me design a custom, fully offline application for a small creative studio (such as a music production plugin controller, indie game prototyping tool, or video editing pipeline manager) running locally:";
             } else if (val === 'machine') {
                 promptBox.value = "Act as an expert systems architect. Give me a step-by-step blueprint on how to buy an affordable 3D printer and standard PC hardware, then use local AI and #GGG networking to build a specialized, fully offline profit-generating automated manufacturing machine:";
             } else if (val === 'challenge') {
                 promptBox.value = "Here is my strategy to beat the explicit #GGG sub-0.45s latency, 100% parsing accuracy, and 15ms mesh convergence benchmarks on local hardware:";
-            } else if (val === 'business') {
-                promptBox.value = "Design an enterprise integration model where a major industrial software suite embeds #GGG local architecture to eliminate cloud expenses and ensure total air-gapping:";
             }
         }
 
@@ -287,6 +339,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            checkOllamaConnection();
             const params = new URLSearchParams(window.location.search);
             const challenge = params.get('challenge');
             if (challenge) {
@@ -322,7 +375,7 @@
                 const data = await response.json();
                 const endTime = performance.now();
                 const latency = ((endTime - startTime) / 1000).toFixed(2);
-                const reply = data.choices?.[0]?.message?.content || JSON.stringify(data);
+                const reply = data.message?.content || data.choices?.[0]?.message?.content || JSON.stringify(data);
 
                 output.textContent = `Mode: ${mode.toUpperCase()} | Latency: ${latency}s\n\nAI Response:\n${reply}`;
             } catch (err) {
