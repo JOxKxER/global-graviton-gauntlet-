@@ -97,7 +97,7 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Local-First AI Testing, Benchmarking & Collaborative Software Harness (v1.2.2)</p>
+        <p>Air-Gapped Local-First AI Testing, Benchmarking & Collaborative Software Harness (v1.2.2)</p>
     </header>
     
     <div class="container">
@@ -117,17 +117,17 @@
             </div>
         </div>
 
-        <!-- Harness Control Panel with Advanced Benchmarks -->
+        <!-- Harness Control Panel with Air-Gapped Software Profile & Benchmarks -->
         <div class="panel">
             <h2>Harness Control & Builder Panel</h2>
 
             <div class="benchmark-target">
                 🏆 <strong>Global Graviton Gauntlet (#GGG) Reference Benchmarks & Software Profile:</strong>
                 <p style="margin: 8px 0; color: var(--text-color);">
-                    <strong>Software Overview:</strong> #GGG is a high-performance, local-first AI benchmarking and app-building harness designed to run seamlessly on consumer hardware without heavy cloud overhead.
+                    <strong>Software Overview:</strong> #GGG is a high-performance, <strong>air-gapped, local-first</strong> AI benchmarking and app-building harness. Because the software operates locally, <strong>all benchmarks and computations run entirely on your device utilizing your hardware</strong>, ensuring complete privacy with $0.00 cloud infrastructure fees.
                 </p>
                 <p style="margin: 8px 0; color: var(--text-color);">
-                    <strong>Hardware & Cost Profile:</strong> Powered by local Apple Silicon / consumer desktop hardware with a running cost of <strong>$0.00 infrastructure fees</strong>, compared to commercial cloud benchmarking APIs costing upwards of $20–$100/month or pay-per-token enterprise fees.
+                    <strong>Hardware & Cost Comparison:</strong> Powered by local consumer hardware or Apple Silicon, eliminating expensive commercial cloud API subscription costs ($20–$100/month or pay-per-token models).
                 </p>
                 <strong>Active Advanced Benchmarks to Beat Across Areas:</strong>
                 <ul style="margin: 5px 0 0 20px; padding: 0; color: var(--text-muted);">
@@ -201,11 +201,11 @@
         function loadSeed(val) {
             const promptBox = document.getElementById('prompt');
             if (val === 'idea') {
-                promptBox.value = "I want to build a local software application for secure communications. Here is my feature concept: [Describe your idea here]";
+                promptBox.value = "I want to build a local air-gapped software application for secure communications. Here is my feature concept: [Describe your idea here]";
             } else if (val === 'mesh') {
                 promptBox.value = "Propose a robust routing algorithm for decentralized mesh networks and drone swarms operating in contested Electronic Warfare (EW) zones to beat propagation and jamming targets:";
             } else if (val === 'security') {
-                promptBox.value = "Describe an automated zero-trust threat isolation mechanism capable of containing network vulnerabilities in under 50ms:";
+                promptBox.value = "Describe an automated zero-trust threat isolation mechanism capable of containing network vulnerabilities in under 50ms on local hardware:";
             }
         }
 
@@ -231,7 +231,7 @@
             const prompt = document.getElementById('prompt').value;
             const mode = document.getElementById('mode').value;
 
-            output.textContent = "Connecting to local system endpoint...";
+            output.textContent = "Connecting to local air-gapped system endpoint...";
             const startTime = performance.now();
 
             try {
