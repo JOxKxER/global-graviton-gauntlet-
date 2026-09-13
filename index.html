@@ -88,32 +88,36 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Local-First AI Testing, Benchmarking & Cognitive Task Harness (v1.2.2)</p>
+        <p>Local-First AI Testing, Benchmarking & App-Building Harness (v1.2.2)</p>
     </header>
     
     <div class="container">
-        <!-- New Built-In Local AI Connection & Setup Guide -->
+        <!-- Connecting Your Local AI Guide Panel -->
         <div class="panel">
             <h2>🔌 Connecting Your Local AI System</h2>
             <p style="color: var(--text-muted); margin-top: 5px;">
-                Because this harness runs via a live web app, your browser security blocks requests to local software unless your system permits cross-origin communication. Follow these quick steps to bring your own local model:
+                Bring your own local model to run benchmarks or build apps conversationally right through your browser:
             </p>
-            
             <div class="help-box">
-                <strong>Step 1: Install & Download a Model Locally</strong><br>
-                Download <a href="https://ollama.com" target="_blank" style="color: var(--accent-color);">Ollama</a> or <a href="https://lmstudio.ai" target="_blank" style="color: var(--accent-color);">LM Studio</a>, then pull a public open-source model through your terminal:<br>
-                <code>ollama pull llama3</code>
+                <strong>Step 1: Install & Pull a Model</strong><br>
+                Install <a href="https://ollama.com" target="_blank" style="color: var(--accent-color);">Ollama</a>, then run: <code>ollama pull llama3</code>
             </div>
-
             <div class="help-box">
                 <strong>Step 2: Enable Browser Access (CORS Fix)</strong><br>
-                Since web browsers protect local ports, run this command in your terminal so this hosted web app can securely communicate with your computer's local AI engine:<br>
-                <code>launchctl setenv OLLAMA_ORIGINS "*"</code> (Mac) or set environment variable <code>OLLAMA_ORIGINS="*"</code> (Windows/Linux), then restart your local app.
+                Run this in your terminal so this web app can connect to your machine: <code>launchctl setenv OLLAMA_ORIGINS "*"</code> (Mac) or set environment variable <code>OLLAMA_ORIGINS="*"</code> (Windows/Linux), then restart Ollama.
             </div>
         </div>
 
+        <!-- Harness Control Panel with Seed Prompts & Builder Mode -->
         <div class="panel">
-            <h2>Harness Control Panel</h2>
+            <h2>Harness Control & Builder Panel</h2>
+            
+            <label for="mode">Operating Mode:</label>
+            <select id="mode">
+                <option value="benchmark">Gauntlet Benchmark (Score & Test)</option>
+                <option value="builder">Conversational App Builder (Build Apps Iteratively)</option>
+            </select>
+
             <label for="provider">Provider Preset:</label>
             <select id="provider">
                 <option value="ollama">Ollama (Local)</option>
@@ -126,29 +130,27 @@
             <label for="model">Model Identifier:</label>
             <input type="text" id="model" value="llama3">
 
-            <label for="prompt">Test Prompt / Task:</label>
-            <textarea id="prompt" rows="4">Explain the concept of local-first software architecture in three concise bullet points.</textarea>
+            <label for="seed-select">Seed Prompt Templates:</label>
+            <select id="seed-select" onchange="loadSeed(this.value)">
+                <option value="">-- Choose a template challenge or app prompt --</option>
+                <option value="app">Build an audio/video editing companion web app UI in a single file.</option>
+                <option value="logic">Benchmark Challenge: Solve a complex multi-step coding logic puzzle under strict constraints.</option>
+                <option value="speed">Speed Challenge: Write a highly optimized data-processing script.</option>
+            </select>
 
-            <button id="run-btn">Run Gauntlet Benchmark</button>
+            <label for="prompt">Test Prompt / Task / Conversation:</label>
+            <textarea id="prompt" rows="5">Explain the concept of local-first software architecture in three concise bullet points and beat the latency baseline.</textarea>
+
+            <button id="run-btn">Run Gauntlet / Send to Local AI</button>
         </div>
 
         <div class="panel">
-            <h2>Live Console Output</h2>
-            <pre id="output" style="background: var(--bg-color); padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; min-height: 100px; white-space: pre-wrap;">Ready to benchmark...</pre>
+            <h2>Live Console Output / Conversation History</h2>
+            <pre id="output" style="background: var(--bg-color); padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; min-height: 120px; white-space: pre-wrap;">Ready to benchmark or build...</pre>
         </div>
 
         <div class="panel">
             <h2>Model Leaderboard</h2>
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <div>
-                    <label>Weight Preset:</label>
-                    <select id="weight-preset">
-                        <option value="balanced">Balanced</option>
-                        <option value="reliability">Reliability-first</option>
-                        <option value="speed">Speed-first</option>
-                    </select>
-                </div>
-            </div>
             <table id="leaderboard-table">
                 <thead>
                     <tr>
@@ -166,13 +168,26 @@
     </div>
 
     <script>
+        function loadSeed(val) {
+            const promptBox = document.getElementById('prompt');
+            if (val === 'app') {
+                promptBox.value = "Act as an expert software architect. Help me design and code a clean, single-file application UI that cleans, edits, and organizes multimedia files locally.";
+            } else if (val === 'logic') {
+                promptBox.value = "Gauntlet Challenge: Write a bulletproof JavaScript function that parses complex quoted CSV strings with multiline support.";
+            } else if (val === 'speed') {
+                promptBox.value = "Speed Test: Output a highly optimized asynchronous batch processor template in JavaScript.";
+            }
+        }
+
         document.getElementById('run-btn').addEventListener('click', async () => {
             const output = document.getElementById('output');
             const endpoint = document.getElementById('endpoint').value;
             const model = document.getElementById('model').value;
             const prompt = document.getElementById('prompt').value;
+            const mode = document.getElementById('mode').value;
 
             output.textContent = "Connecting to local system endpoint...";
+            const startTime = performance.now();
 
             try {
                 const response = await fetch(endpoint, {
@@ -186,14 +201,17 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}. Check if CORS/OLLAMA_ORIGINS is enabled!`);
+                    throw new Error(`HTTP error! status: ${response.status}. Verify OLLAMA_ORIGINS is configured!`);
                 }
 
                 const data = await response.json();
+                const endTime = performance.now();
+                const latency = ((endTime - startTime) / 1000).toFixed(2);
                 const reply = data.choices?.[0]?.message?.content || JSON.stringify(data);
-                output.textContent = `Success!\n\nResponse:\n${reply}`;
+
+                output.textContent = `Mode: ${mode.toUpperCase()} | Latency: ${latency}s\n\nAI Response:\n${reply}`;
             } catch (err) {
-                output.textContent = `Connection Error: ${err.message}\n\nMake sure your local app (Ollama) is running and your OLLAMA_ORIGINS environment variable is configured correctly!`;
+                output.textContent = `Connection Error: ${err.message}\n\nMake sure Ollama is running locally and your browser connection is allowed!`;
             }
         });
     </script>
