@@ -119,7 +119,7 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.2.2)</p>
+        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.2.3)</p>
     </header>
     
     <div class="container">
@@ -134,7 +134,7 @@
                     We are challenging Elon Musk, Sam Altman, Mark Zuckerberg, Jensen Huang, Sundar Pichai, and Satya Nadella—alongside their billion-dollar war chests and engineer armies—to step into the #GGG sandbox. Step in for pure <strong>bragging rights</strong>, bring your centralized architectures, and show the world if they can truly match the potential of edge-native computing. 🤣
                 </p>
                 <p style="margin: 0 0 12px 0;">
-                    Mr. President, please leverage your mighty pen and sword to help these tech puppeteers save their extractive cloud empire! 🤣 The era of pay-gated human progress is over. It’s time to build from the middle out. Find the Graviton way.
+                    <em>(Note: The playful plea for the President to help big tech save their extractive cloud empire is strictly tongue-in-cheek sarcasm! 🤣)</em> The era of pay-gated human progress is over. It’s time to build from the middle out. Find the Graviton way.
                 </p>
 
                 <!-- Detailed Blueprint for Automated Businesses, App Ideas & Commercial Licensing -->
@@ -145,6 +145,7 @@
                     </p>
                     <ul style="margin: 0 0 0 20px; padding: 0; color: var(--text-muted);">
                         <li><strong>Exploring & Prototyping Unique App Ideas:</strong> Switch the operating mode to <em>Collaborative Builder</em>, type your custom app concept or feature list into the prompt box, and have your local AI generate clean single-file software UI code instantly offline.</li>
+                        <li><strong>Real-World Example (Sheet Metal & Custom 3D Printing App):</strong> Imagine a traditional small business, like a sheet metal fabrication factory, wanting to streamline operations. Using this site, they can converse with their local AI to build a custom, fully offline 3D printing and sheet-metal parameter calculator app that runs entirely on local shop-floor hardware without risking proprietary designs to cloud servers.</li>
                         <li><strong>Borrowing Open-Source Foundations:</strong> You can borrow the core open-source architecture of #GGG as a modular baseline rather than writing software from scratch.</li>
                         <li><strong>Commercial Licensing & Going to Market:</strong> Take your locally generated or borrowed application, secure simple paid-for commercial licensing rights, and package it for market deployment immediately with **$0.00 infrastructure overhead**.</li>
                         <li><strong>Disrupting Big Tech Monopolies:</strong> Build sovereign micro-businesses that undercut cloud SaaS competitors without data surveillance or recurring server fees, creating massive market friction.</li>
@@ -219,9 +220,9 @@
             <select id="seed-select" onchange="loadSeed(this.value)">
                 <option value="">-- Choose an optional suggestion --</option>
                 <option value="idea">App Idea & Commercialization: Pitch a concept for a unique single-file app to license.</option>
+                <option value="factory">Small Business 3D Printing App: Design a fully offline tool for a sheet metal and 3D printing workshop.</option>
                 <option value="business">Automated Business Strategy: Propose a sovereign micro-SaaS model to compete with Big Tech.</option>
                 <option value="mesh">Mesh & Drone Strategy: Propose algorithms to optimize decentralized mesh and EW drone networking.</option>
-                <option value="security">Security Strategy: Propose zero-trust resilience architectures to beat #GGG security benchmarks.</option>
             </select>
 
             <label for="prompt">Test Prompt / Software Idea / Strategy:</label>
@@ -261,12 +262,12 @@
             const promptBox = document.getElementById('prompt');
             if (val === 'idea') {
                 promptBox.value = "I want to build a local air-gapped commercial software application using open-source templates. Here is my feature concept to build and license: [Describe your idea here]";
+            } else if (val === 'factory') {
+                promptBox.value = "Act as an expert local software architect. Help me design a custom, fully offline 3D printing and sheet-metal parameter calculator app for a small manufacturing shop running locally on our hardware:";
             } else if (val === 'business') {
                 promptBox.value = "Design an automated, local-first commercial micro-SaaS business blueprint that undercuts centralized cloud competitors with $0.00 infrastructure overhead:";
             } else if (val === 'mesh') {
                 promptBox.value = "Propose a robust routing algorithm for decentralized mesh networks and drone swarms operating in contested Electronic Warfare (EW) zones to beat propagation and jamming targets:";
-            } else if (val === 'security') {
-                promptBox.value = "Describe an automated zero-trust threat isolation mechanism capable of containing network vulnerabilities in under 50ms on local hardware:";
             }
         }
 
