@@ -47,7 +47,7 @@
         .benchmark-target {
             background-color: #21262d;
             border: 1px dashed var(--accent-color);
-            padding: 12px;
+            padding: 15px;
             border-radius: 4px;
             margin-bottom: 15px;
             font-size: 13px;
@@ -97,7 +97,7 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Local-First AI Testing, Benchmarking & App-Building Harness (v1.2.2)</p>
+        <p>Local-First AI Testing, Benchmarking & Collaborative Software Harness (v1.2.2)</p>
     </header>
     
     <div class="container">
@@ -105,7 +105,7 @@
         <div class="panel">
             <h2>🔌 Connecting Your Local AI System</h2>
             <p style="color: var(--text-muted); margin-top: 5px;">
-                Bring your own local model to run benchmarks or build apps conversationally right through your browser:
+                Bring your own local model to test prompts, explore software ideas, or see if your setup can beat our reference benchmarks:
             </p>
             <div class="help-box">
                 <strong>Step 1: Install & Pull a Model</strong><br>
@@ -117,23 +117,30 @@
             </div>
         </div>
 
-        <!-- Harness Control Panel with Multi-Area Open Challenges -->
+        <!-- Harness Control Panel with Software Background & Benchmarks -->
         <div class="panel">
             <h2>Harness Control & Builder Panel</h2>
 
             <div class="benchmark-target">
-                🎯 <strong>Open Performance Challenges to Beat:</strong>
+                🏆 <strong>Global Graviton Gauntlet (#GGG) Reference Benchmarks & Software Profile:</strong>
+                <p style="margin: 8px 0; color: var(--text-color);">
+                    <strong>Software Overview:</strong> #GGG is a high-performance, local-first AI benchmarking and app-building harness designed to run seamlessly on consumer hardware without heavy cloud overhead.
+                </p>
+                <p style="margin: 8px 0; color: var(--text-color);">
+                    <strong>Hardware & Cost Profile:</strong> Powered by local Apple Silicon / consumer desktop hardware with a running cost of <strong>$0.00 infrastructure fees</strong>, compared to commercial cloud benchmarking APIs costing upwards of $20–$100/month or pay-per-token enterprise fees.
+                </p>
+                <strong>Active Benchmarks to Beat Across Areas:</strong>
                 <ul style="margin: 5px 0 0 20px; padding: 0; color: var(--text-muted);">
-                    <li><strong>⚡ Speed & Latency Area:</strong> Sub-0.45s average generation latency.</li>
-                    <li><strong>🧠 Logic & Parsing Area:</strong> 100% accurate multi-line code parsing.</li>
-                    <li><strong>🛠️ App Architecture Area:</strong> Zero-shot generation of working single-file multimedia apps.</li>
+                    <li><strong>⚡ Speed & Latency:</strong> Sub-0.45s average generation latency.</li>
+                    <li><strong>🧠 Logic & Parsing:</strong> 100% accurate multi-line code parsing.</li>
+                    <li><strong>🛠️ App Architecture:</strong> Zero-shot generation of working single-file software apps.</li>
                 </ul>
             </div>
             
             <label for="mode">Operating Mode:</label>
             <select id="mode">
                 <option value="benchmark">Gauntlet Benchmark (Score & Test)</option>
-                <option value="builder">Conversational App Builder (Build Apps Iteratively)</option>
+                <option value="builder">Collaborative Builder (Explore Software Ideas & Optimization)</option>
             </select>
 
             <label for="provider">Provider Preset:</label>
@@ -148,26 +155,26 @@
             <label for="model">Model Identifier:</label>
             <input type="text" id="model" value="llama3">
 
-            <label for="seed-select">Optional Seed Suggestions (Click to load challenge, or type freely):</label>
+            <label for="seed-select">Optional Suggestions (Click to load prompt ideas, or type freely):</label>
             <select id="seed-select" onchange="loadSeed(this.value)">
-                <option value="">-- Choose an optional challenge suggestion --</option>
-                <option value="app">App Architecture Challenge: Build an audio/video editing companion web app UI in a single file.</option>
-                <option value="logic">Logic Challenge: Solve a complex multi-step coding logic puzzle under strict constraints.</option>
-                <option value="speed">Speed Challenge: Write a highly optimized data-processing script to beat the latency target.</option>
+                <option value="">-- Choose an optional suggestion --</option>
+                <option value="idea">Share a New Software Idea: Pitch a concept for a local multimedia utility app.</option>
+                <option value="beat">Strategy to Beat Benchmarks: Propose hardware or algorithmic optimizations to surpass #GGG latency scores.</option>
+                <option value="logic">Logic Challenge: Optimize a multi-line code parser script.</option>
             </select>
 
-            <label for="prompt">Test Prompt / Task / Conversation:</label>
-            <textarea id="prompt" rows="5">Explain the concept of local-first software architecture in three concise bullet points and beat the open challenge targets.</textarea>
+            <label for="prompt">Test Prompt / Software Idea / Strategy:</label>
+            <textarea id="prompt" rows="5">Describe your unique software app idea or provide architectural strategies on how your local model can beat the #GGG reference benchmarks.</textarea>
 
             <div style="display: flex; gap: 10px;">
                 <button id="run-btn" style="flex: 2;">Run Gauntlet / Send to Local AI</button>
-                <button id="share-btn" class="btn-secondary" style="flex: 1;" onclick="shareChallenge()">Share Challenge Link</button>
+                <button id="share-btn" class="btn-secondary" style="flex: 1;" onclick="shareChallenge()">Share Prompt Link</button>
             </div>
         </div>
 
         <div class="panel">
             <h2>Live Console Output / Conversation History</h2>
-            <pre id="output" style="background: var(--bg-color); padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; min-height: 120px; white-space: pre-wrap;">Ready to benchmark or build...</pre>
+            <pre id="output" style="background: var(--bg-color); padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; min-height: 120px; white-space: pre-wrap;">Ready for your ideas and benchmarks...</pre>
         </div>
 
         <div class="panel">
@@ -191,12 +198,12 @@
     <script>
         function loadSeed(val) {
             const promptBox = document.getElementById('prompt');
-            if (val === 'app') {
-                promptBox.value = "Act as an expert software architect. Help me design and code a clean, single-file application UI that cleans, edits, and organizes multimedia files locally.";
+            if (val === 'idea') {
+                promptBox.value = "I want to build a local software application that cleans and edits audio/video files securely in the browser. Here is my feature concept: [Describe your idea here]";
+            } else if (val === 'beat') {
+                promptBox.value = "Here is my strategy and approach on how to optimize local runtime parameters and hardware utilization to beat the #GGG sub-0.45s latency benchmark:";
             } else if (val === 'logic') {
-                promptBox.value = "Gauntlet Logic Challenge: Write a bulletproof JavaScript function that parses complex quoted CSV strings with multiline support.";
-            } else if (val === 'speed') {
-                promptBox.value = "Gauntlet Speed Challenge: Output a highly optimized asynchronous batch processor template in JavaScript to beat the 0.45s latency target.";
+                promptBox.value = "Analyze the #GGG logic benchmark requirements and propose an optimized implementation to achieve 100% accurate multi-line parsing.";
             }
         }
 
@@ -204,10 +211,9 @@
             const promptText = encodeURIComponent(document.getElementById('prompt').value);
             const shareUrl = `${window.location.origin}${window.location.pathname}?challenge=${promptText}`;
             navigator.clipboard.writeText(shareUrl);
-            alert("Challenge share link copied to clipboard! Anyone can open this link to load your exact benchmark challenge.");
+            alert("Prompt share link copied to clipboard! Anyone can open this link to load your exact software idea or benchmark strategy.");
         }
 
-        // Load challenge from URL if present
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const challenge = params.get('challenge');
