@@ -12,9 +12,7 @@
             --text-color: #c9d1d9;
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
-            --accent-hover: #1f6feb;
             --success-color: #238636;
-            --danger-color: #da3633;
             --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
         body {
@@ -38,6 +36,20 @@
             border: 1px solid var(--border-color);
             border-radius: 6px;
             padding: 20px;
+        }
+        .help-box {
+            background-color: #1f242c;
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        code {
+            background-color: #21262d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #79c0ff;
         }
         button {
             background-color: var(--success-color);
@@ -78,7 +90,28 @@
         <h1>Global Graviton Gauntlet (#GGG)</h1>
         <p>Local-First AI Testing, Benchmarking & Cognitive Task Harness (v1.2.2)</p>
     </header>
+    
     <div class="container">
+        <!-- New Built-In Local AI Connection & Setup Guide -->
+        <div class="panel">
+            <h2>🔌 Connecting Your Local AI System</h2>
+            <p style="color: var(--text-muted); margin-top: 5px;">
+                Because this harness runs via a live web app, your browser security blocks requests to local software unless your system permits cross-origin communication. Follow these quick steps to bring your own local model:
+            </p>
+            
+            <div class="help-box">
+                <strong>Step 1: Install & Download a Model Locally</strong><br>
+                Download <a href="https://ollama.com" target="_blank" style="color: var(--accent-color);">Ollama</a> or <a href="https://lmstudio.ai" target="_blank" style="color: var(--accent-color);">LM Studio</a>, then pull a public open-source model through your terminal:<br>
+                <code>ollama pull llama3</code>
+            </div>
+
+            <div class="help-box">
+                <strong>Step 2: Enable Browser Access (CORS Fix)</strong><br>
+                Since web browsers protect local ports, run this command in your terminal so this hosted web app can securely communicate with your computer's local AI engine:<br>
+                <code>launchctl setenv OLLAMA_ORIGINS "*"</code> (Mac) or set environment variable <code>OLLAMA_ORIGINS="*"</code> (Windows/Linux), then restart your local app.
+            </div>
+        </div>
+
         <div class="panel">
             <h2>Harness Control Panel</h2>
             <label for="provider">Provider Preset:</label>
@@ -133,10 +166,35 @@
     </div>
 
     <script>
-        // v1.2.2 Core Logic Stub
-        document.getElementById('run-btn').addEventListener('click', () => {
+        document.getElementById('run-btn').addEventListener('click', async () => {
             const output = document.getElementById('output');
-            output.textContent = "Executing run simulation against local endpoint...\nSuccess! Latency: 0.42s. Score assigned.";
+            const endpoint = document.getElementById('endpoint').value;
+            const model = document.getElementById('model').value;
+            const prompt = document.getElementById('prompt').value;
+
+            output.textContent = "Connecting to local system endpoint...";
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: [{ role: "user", content: prompt }],
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}. Check if CORS/OLLAMA_ORIGINS is enabled!`);
+                }
+
+                const data = await response.json();
+                const reply = data.choices?.[0]?.message?.content || JSON.stringify(data);
+                output.textContent = `Success!\n\nResponse:\n${reply}`;
+            } catch (err) {
+                output.textContent = `Connection Error: ${err.message}\n\nMake sure your local app (Ollama) is running and your OLLAMA_ORIGINS environment variable is configured correctly!`;
+            }
         });
     </script>
 </body>
