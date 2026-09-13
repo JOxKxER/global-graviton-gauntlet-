@@ -119,7 +119,7 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.2.3)</p>
+        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.2.4)</p>
     </header>
     
     <div class="container">
@@ -139,23 +139,22 @@
 
                 <!-- Detailed Blueprint for Automated Businesses, App Ideas & Commercial Licensing -->
                 <div class="blueprint-box">
-                    🚀 <strong>How to Use This Site: Building, Borrowing & Commercializing Apps</strong><br>
+                    🚀 <strong>How to Use This Site: Building, In-House Execution & Commercial Licensing</strong><br>
                     <p style="margin: 8px 0 6px 0;">
-                        Because local-first air-gapped computing is an entirely new industry concept, here is how anyone—from casual users to expert entrepreneurs—can utilize this platform to build and commercialize software:
+                        Because local-first air-gapped computing is an entirely new industry concept, here is how users and enterprises can utilize this platform safely and legally:
                     </p>
                     <ul style="margin: 0 0 0 20px; padding: 0; color: var(--text-muted);">
-                        <li><strong>Exploring & Prototyping Unique App Ideas:</strong> Switch the operating mode to <em>Collaborative Builder</em>, type your custom app concept or feature list into the prompt box, and have your local AI generate clean single-file software UI code instantly offline.</li>
-                        <li><strong>Real-World Example (Sheet Metal & Custom 3D Printing App):</strong> Imagine a traditional small business, like a sheet metal fabrication factory, wanting to streamline operations. Using this site, they can converse with their local AI to build a custom, fully offline 3D printing and sheet-metal parameter calculator app that runs entirely on local shop-floor hardware without risking proprietary designs to cloud servers.</li>
-                        <li><strong>Borrowing Open-Source Foundations:</strong> You can borrow the core open-source architecture of #GGG as a modular baseline rather than writing software from scratch.</li>
-                        <li><strong>Commercial Licensing & Going to Market:</strong> Take your locally generated or borrowed application, secure simple paid-for commercial licensing rights, and package it for market deployment immediately with **$0.00 infrastructure overhead**.</li>
-                        <li><strong>Disrupting Big Tech Monopolies:</strong> Build sovereign micro-businesses that undercut cloud SaaS competitors without data surveillance or recurring server fees, creating massive market friction.</li>
+                        <li><strong>Exploring & Prototyping Free In-House Apps:</strong> Switch the operating mode to <em>Collaborative Builder</em>, type your custom app concept or feature list into the prompt box, and have your local AI generate clean single-file software UI code instantly offline. You can run your apps in-house forever for free on your own device hardware.</li>
+                        <li><strong>Real-World Example (Sheet Metal & Custom 3D Printing App):</strong> A small business like a sheet metal fabrication factory can build a custom, fully offline 3D printing and parameter calculator app that runs entirely on local shop-floor hardware without risking proprietary designs to cloud servers.</li>
+                        <li><strong>Enterprise Ecosystems & Siemens NX Integration:</strong> Major industrial software leaders (such as Siemens NX) can acquire a commercial business license to bundle or integrate #GGG directly with their established tools, pushing local execution to their user base to provide full air-gapping and eliminate massive cloud hosting expenses.</li>
+                        <li><strong>Strict Commercial Boundaries & Legal Penalties:</strong> While free internal and in-house execution is permitted indefinitely, unauthorized commercialization, external distribution, or accepting outside payments for apps built on this site without explicit permission violates intellectual property terms and is subject to severe legal penalties.</li>
                     </ul>
                 </div>
                 
                 <!-- Business Contact Information -->
                 <div class="contact-box">
-                    💼 <strong>Enterprise & Business Opportunities:</strong><br>
-                    Looking to license sovereign edge architectures, integrate air-gapped AI benchmarking, or partner on commercial app licensing? Reach out directly at <a href="mailto:garzaglobalgravitonllc@gmail.com" style="color: var(--accent-color);">garzaglobalgravitonllc@gmail.com</a>.
+                    💼 <strong>Enterprise Licensing & Business Opportunities:</strong><br>
+                    Looking to secure a commercial business license, integrate air-gapped sovereign architectures into industrial ecosystems (like Siemens NX), or partner on commercial app distribution? Reach out directly to Garza Global Graviton LLC at <a href="mailto:garzaglobalgravitonllc@gmail.com" style="color: var(--accent-color);">garzaglobalgravitonllc@gmail.com</a>.
                 </div>
             </div>
         </div>
@@ -201,7 +200,7 @@
             <label for="mode">Operating Mode:</label>
             <select id="mode">
                 <option value="benchmark">Gauntlet Benchmark (Score & Test)</option>
-                <option value="builder">Collaborative Builder (Explore App Ideas & Commercial Licensing)</option>
+                <option value="builder">Collaborative Builder (Explore App Ideas & In-House Tools)</option>
             </select>
 
             <label for="provider">Provider Preset:</label>
@@ -219,14 +218,14 @@
             <label for="seed-select">Optional Suggestions (Click to load prompt ideas, or type freely):</label>
             <select id="seed-select" onchange="loadSeed(this.value)">
                 <option value="">-- Choose an optional suggestion --</option>
-                <option value="idea">App Idea & Commercialization: Pitch a concept for a unique single-file app to license.</option>
+                <option value="idea">App Idea & In-House Tool: Pitch a concept for a unique single-file utility.</option>
                 <option value="factory">Small Business 3D Printing App: Design a fully offline tool for a sheet metal and 3D printing workshop.</option>
-                <option value="business">Automated Business Strategy: Propose a sovereign micro-SaaS model to compete with Big Tech.</option>
+                <option value="business">Enterprise Integration Strategy: Propose a Siemens NX-style ecosystem integration model to eliminate cloud costs.</option>
                 <option value="mesh">Mesh & Drone Strategy: Propose algorithms to optimize decentralized mesh and EW drone networking.</option>
             </select>
 
             <label for="prompt">Test Prompt / Software Idea / Strategy:</label>
-            <textarea id="prompt" rows="5">Describe your unique software app idea or commercial licensing concept on how to bypass Big Tech and beat the #GGG reference benchmarks for bragging rights.</textarea>
+            <textarea id="prompt" rows="5">Describe your unique software app idea or enterprise integration strategy on how to leverage air-gapped local execution and beat the #GGG reference benchmarks for bragging rights.</textarea>
 
             <div style="display: flex; gap: 10px;">
                 <button id="run-btn" style="flex: 2;">Run Gauntlet / Send to Local AI</button>
@@ -261,11 +260,11 @@
         function loadSeed(val) {
             const promptBox = document.getElementById('prompt');
             if (val === 'idea') {
-                promptBox.value = "I want to build a local air-gapped commercial software application using open-source templates. Here is my feature concept to build and license: [Describe your idea here]";
+                promptBox.value = "I want to build a local air-gapped in-house application using open-source templates. Here is my feature concept: [Describe your idea here]";
             } else if (val === 'factory') {
                 promptBox.value = "Act as an expert local software architect. Help me design a custom, fully offline 3D printing and sheet-metal parameter calculator app for a small manufacturing shop running locally on our hardware:";
             } else if (val === 'business') {
-                promptBox.value = "Design an automated, local-first commercial micro-SaaS business blueprint that undercuts centralized cloud competitors with $0.00 infrastructure overhead:";
+                promptBox.value = "Design an enterprise integration model where an industrial software suite like Siemens NX embeds #GGG local architecture to eliminate cloud expenses and ensure total air-gapping:";
             } else if (val === 'mesh') {
                 promptBox.value = "Propose a robust routing algorithm for decentralized mesh networks and drone swarms operating in contested Electronic Warfare (EW) zones to beat propagation and jamming targets:";
             }
