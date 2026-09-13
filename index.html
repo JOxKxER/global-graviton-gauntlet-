@@ -119,7 +119,7 @@
 <body>
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.2.5)</p>
+        <p>Air-Gapped Local-First AI Testing, Benchmarking & Commercial Software Builder (v1.2.6)</p>
     </header>
     
     <div class="container">
@@ -175,25 +175,25 @@
             </div>
         </div>
 
-        <!-- Harness Control Panel with Enterprise Metrics & Competitor Benchmarks -->
+        <!-- Harness Control Panel with Explicit #GGG Challenge Benchmarks & Milestones -->
         <div class="panel">
             <h2>Harness Control & Builder Panel</h2>
 
             <div class="benchmark-target">
-                🏆 <strong>#GGG Reference Benchmarks vs. Top Competitors & Enterprise Value:</strong>
+                🏆 <strong>The #GGG Challenge: Benchmarks & Milestones to Beat:</strong>
                 <p style="margin: 8px 0; color: var(--text-color);">
                     <strong>Execution Profile:</strong> 100% local hardware execution (Apple Silicon / consumer desktop) under absolute air-gapped security. All tasks run locally on your device utilizing your hardware with <strong>$0.00 infrastructure cost</strong>.
                 </p>
                 <p style="margin: 8px 0; color: var(--text-color);">
-                    <strong>Enterprise Cost & Security Advantage:</strong> Centralized cloud competitors (like OpenAI GPT-4o or Anthropic Claude) impose recurring subscription/API token overhead of <strong>$20–$100+/month</strong> per user and risk corporate data leakage. #GGG offers absolute data privacy and zero cloud overhead.
+                    <strong>Competitor Cost & Latency Disadvantage:</strong> Centralized cloud platforms impose recurring subscription and API token fees ($20–$100+/month) while suffering from high network round-trip bottlenecks. #GGG eliminates cloud overhead entirely.
                 </p>
-                <strong>Active Enterprise Performance Benchmarks to Beat:</strong>
+                <strong>Specific #GGG Reference Milestones & Benchmarks to Beat:</strong>
                 <ul style="margin: 5px 0 0 20px; padding: 0; color: var(--text-muted);">
-                    <li><strong>⚡ Speed & Latency:</strong> #GGG sub-0.45s local latency vs. 500ms–2,000ms+ network round-trip delays on cloud APIs.</li>
-                    <li><strong>🧠 Logic & Parsing:</strong> 100% accurate multi-line code parsing locally without server throttling.</li>
-                    <li><strong>🛰️ Decentralized Mesh:</strong> Packet propagation delay & routing convergence under 15ms.</li>
-                    <li><strong>🛡️ Cybersecurity & Zero-Trust:</strong> Threat containment speed under 50ms with zero-day isolation.</li>
-                    <li><strong>🛸 Drone Networking (EW Zones):</strong> Frequency-hopping sync & autonomous swarm re-routing under heavy jamming.</li>
+                    <li><strong>⚡ Speed & Latency Benchmark:</strong> Achieve average local generation latency of <strong>Sub-0.45s</strong> (defeating standard 500ms–2,000ms+ cloud API round-trips).</li>
+                    <li><strong>🧠 Logic & Code Parsing Milestone:</strong> Attain <strong>100% accuracy</strong> in multi-line code parsing and single-file app generation offline.</li>
+                    <li><strong>🛰️ Decentralized Mesh Milestone:</strong> Maintain packet propagation delay and routing table convergence under <strong>15ms</strong> across dynamic topologies.</li>
+                    <li><strong>🛡️ Cybersecurity & Zero-Trust Milestone:</strong> Execute automated threat isolation and vulnerability containment in under <strong>50ms</strong> with zero-day isolation.</li>
+                    <li><strong>🛸 Drone Networking Milestone (EW Zones):</strong> Maintain frequency-hopping synchronization and autonomous swarm re-routing under heavy tactical jamming without central GPS or command links.</li>
                 </ul>
             </div>
             
@@ -218,14 +218,14 @@
             <label for="seed-select">Optional Suggestions (Click to load prompt ideas, or type freely):</label>
             <select id="seed-select" onchange="loadSeed(this.value)">
                 <option value="">-- Choose an optional suggestion --</option>
+                <option value="challenge">Challenge #GGG Benchmarks: Test your model against specific latency, mesh, and security milestones.</option>
                 <option value="idea">App Idea & In-House Tool: Pitch a concept for a unique single-file utility.</option>
                 <option value="factory">Small Business 3D Printing App: Design a fully offline tool for a sheet metal and 3D printing workshop.</option>
                 <option value="business">Enterprise Integration Strategy: Propose an industrial suite ecosystem integration model to eliminate cloud costs.</option>
-                <option value="mesh">Mesh & Drone Strategy: Propose algorithms to optimize decentralized mesh and EW drone networking.</option>
             </select>
 
             <label for="prompt">Test Prompt / Software Idea / Strategy:</label>
-            <textarea id="prompt" rows="5">Describe your unique software app idea or enterprise integration strategy on how to leverage air-gapped local execution and beat the #GGG reference benchmarks for bragging rights.</textarea>
+            <textarea id="prompt" rows="5">Provide architectural strategies or test prompts on how your model can beat the explicit #GGG speed, mesh, security, and parsing benchmarks for bragging rights.</textarea>
 
             <div style="display: flex; gap: 10px;">
                 <button id="run-btn" style="flex: 2;">Run Gauntlet / Send to Local AI</button>
@@ -259,14 +259,14 @@
     <script>
         function loadSeed(val) {
             const promptBox = document.getElementById('prompt');
-            if (val === 'idea') {
+            if (val === 'challenge') {
+                promptBox.value = "Here is my strategy to beat the explicit #GGG sub-0.45s latency, 100% parsing accuracy, and 15ms mesh convergence benchmarks on local hardware:";
+            } else if (val === 'idea') {
                 promptBox.value = "I want to build a local air-gapped in-house application using open-source templates. Here is my feature concept: [Describe your idea here]";
             } else if (val === 'factory') {
                 promptBox.value = "Act as an expert local software architect. Help me design a custom, fully offline 3D printing and sheet-metal parameter calculator app for a small manufacturing shop running locally on our hardware:";
             } else if (val === 'business') {
                 promptBox.value = "Design an enterprise integration model where a major industrial software suite embeds #GGG local architecture to eliminate cloud expenses and ensure total air-gapping:";
-            } else if (val === 'mesh') {
-                promptBox.value = "Propose a robust routing algorithm for decentralized mesh networks and drone swarms operating in contested Electronic Warfare (EW) zones to beat propagation and jamming targets:";
             }
         }
 
