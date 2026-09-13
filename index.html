@@ -47,7 +47,7 @@
         .benchmark-target {
             background-color: #21262d;
             border: 1px dashed var(--accent-color);
-            padding: 10px;
+            padding: 12px;
             border-radius: 4px;
             margin-bottom: 15px;
             font-size: 13px;
@@ -69,6 +69,7 @@
             font-weight: bold;
         }
         button:hover { opacity: 0.9; }
+        .btn-secondary { background-color: #21262d; border: 1px solid var(--border-color); margin-left: 10px; }
         input, select, textarea {
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
@@ -116,15 +117,16 @@
             </div>
         </div>
 
-        <!-- Harness Control Panel with Optional Suggestions & Targets to Beat -->
+        <!-- Harness Control Panel with Multi-Area Open Challenges -->
         <div class="panel">
             <h2>Harness Control & Builder Panel</h2>
 
             <div class="benchmark-target">
-                🎯 <strong>Active Target Benchmarks to Beat:</strong>
+                🎯 <strong>Open Performance Challenges to Beat:</strong>
                 <ul style="margin: 5px 0 0 20px; padding: 0; color: var(--text-muted);">
-                    <li><strong>Speed Benchmark:</strong> Sub-0.45s average latency per generation.</li>
-                    <li><strong>Logic Benchmark:</strong> 100% bug-free multi-line code parsing accuracy.</li>
+                    <li><strong>⚡ Speed & Latency Area:</strong> Sub-0.45s average generation latency.</li>
+                    <li><strong>🧠 Logic & Parsing Area:</strong> 100% accurate multi-line code parsing.</li>
+                    <li><strong>🛠️ App Architecture Area:</strong> Zero-shot generation of working single-file multimedia apps.</li>
                 </ul>
             </div>
             
@@ -146,18 +148,21 @@
             <label for="model">Model Identifier:</label>
             <input type="text" id="model" value="llama3">
 
-            <label for="seed-select">Optional Seed Suggestions (Click to load, or type freely below):</label>
+            <label for="seed-select">Optional Seed Suggestions (Click to load challenge, or type freely):</label>
             <select id="seed-select" onchange="loadSeed(this.value)">
-                <option value="">-- Choose an optional suggestion or write your own --</option>
-                <option value="app">Build an audio/video editing companion web app UI in a single file.</option>
-                <option value="logic">Beat Benchmark: Solve a complex multi-step coding logic puzzle under strict constraints.</option>
-                <option value="speed">Beat Benchmark: Write a highly optimized data-processing script.</option>
+                <option value="">-- Choose an optional challenge suggestion --</option>
+                <option value="app">App Architecture Challenge: Build an audio/video editing companion web app UI in a single file.</option>
+                <option value="logic">Logic Challenge: Solve a complex multi-step coding logic puzzle under strict constraints.</option>
+                <option value="speed">Speed Challenge: Write a highly optimized data-processing script to beat the latency target.</option>
             </select>
 
             <label for="prompt">Test Prompt / Task / Conversation:</label>
-            <textarea id="prompt" rows="5">Explain the concept of local-first software architecture in three concise bullet points and beat the latency target.</textarea>
+            <textarea id="prompt" rows="5">Explain the concept of local-first software architecture in three concise bullet points and beat the open challenge targets.</textarea>
 
-            <button id="run-btn">Run Gauntlet / Send to Local AI</button>
+            <div style="display: flex; gap: 10px;">
+                <button id="run-btn" style="flex: 2;">Run Gauntlet / Send to Local AI</button>
+                <button id="share-btn" class="btn-secondary" style="flex: 1;" onclick="shareChallenge()">Share Challenge Link</button>
+            </div>
         </div>
 
         <div class="panel">
@@ -189,11 +194,27 @@
             if (val === 'app') {
                 promptBox.value = "Act as an expert software architect. Help me design and code a clean, single-file application UI that cleans, edits, and organizes multimedia files locally.";
             } else if (val === 'logic') {
-                promptBox.value = "Gauntlet Challenge: Write a bulletproof JavaScript function that parses complex quoted CSV strings with multiline support.";
+                promptBox.value = "Gauntlet Logic Challenge: Write a bulletproof JavaScript function that parses complex quoted CSV strings with multiline support.";
             } else if (val === 'speed') {
-                promptBox.value = "Speed Test: Output a highly optimized asynchronous batch processor template in JavaScript to beat the 0.45s latency target.";
+                promptBox.value = "Gauntlet Speed Challenge: Output a highly optimized asynchronous batch processor template in JavaScript to beat the 0.45s latency target.";
             }
         }
+
+        function shareChallenge() {
+            const promptText = encodeURIComponent(document.getElementById('prompt').value);
+            const shareUrl = `${window.location.origin}${window.location.pathname}?challenge=${promptText}`;
+            navigator.clipboard.writeText(shareUrl);
+            alert("Challenge share link copied to clipboard! Anyone can open this link to load your exact benchmark challenge.");
+        }
+
+        // Load challenge from URL if present
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const challenge = params.get('challenge');
+            if (challenge) {
+                document.getElementById('prompt').value = decodeURIComponent(challenge);
+            }
+        });
 
         document.getElementById('run-btn').addEventListener('click', async () => {
             const output = document.getElementById('output');
