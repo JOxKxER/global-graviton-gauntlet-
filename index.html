@@ -44,6 +44,14 @@
             margin-bottom: 15px;
             font-size: 14px;
         }
+        .benchmark-target {
+            background-color: #21262d;
+            border: 1px dashed var(--accent-color);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
         code {
             background-color: #21262d;
             padding: 2px 6px;
@@ -108,9 +116,17 @@
             </div>
         </div>
 
-        <!-- Harness Control Panel with Seed Prompts & Builder Mode -->
+        <!-- Harness Control Panel with Optional Suggestions & Targets to Beat -->
         <div class="panel">
             <h2>Harness Control & Builder Panel</h2>
+
+            <div class="benchmark-target">
+                🎯 <strong>Active Target Benchmarks to Beat:</strong>
+                <ul style="margin: 5px 0 0 20px; padding: 0; color: var(--text-muted);">
+                    <li><strong>Speed Benchmark:</strong> Sub-0.45s average latency per generation.</li>
+                    <li><strong>Logic Benchmark:</strong> 100% bug-free multi-line code parsing accuracy.</li>
+                </ul>
+            </div>
             
             <label for="mode">Operating Mode:</label>
             <select id="mode">
@@ -130,16 +146,16 @@
             <label for="model">Model Identifier:</label>
             <input type="text" id="model" value="llama3">
 
-            <label for="seed-select">Seed Prompt Templates:</label>
+            <label for="seed-select">Optional Seed Suggestions (Click to load, or type freely below):</label>
             <select id="seed-select" onchange="loadSeed(this.value)">
-                <option value="">-- Choose a template challenge or app prompt --</option>
+                <option value="">-- Choose an optional suggestion or write your own --</option>
                 <option value="app">Build an audio/video editing companion web app UI in a single file.</option>
-                <option value="logic">Benchmark Challenge: Solve a complex multi-step coding logic puzzle under strict constraints.</option>
-                <option value="speed">Speed Challenge: Write a highly optimized data-processing script.</option>
+                <option value="logic">Beat Benchmark: Solve a complex multi-step coding logic puzzle under strict constraints.</option>
+                <option value="speed">Beat Benchmark: Write a highly optimized data-processing script.</option>
             </select>
 
             <label for="prompt">Test Prompt / Task / Conversation:</label>
-            <textarea id="prompt" rows="5">Explain the concept of local-first software architecture in three concise bullet points and beat the latency baseline.</textarea>
+            <textarea id="prompt" rows="5">Explain the concept of local-first software architecture in three concise bullet points and beat the latency target.</textarea>
 
             <button id="run-btn">Run Gauntlet / Send to Local AI</button>
         </div>
@@ -175,7 +191,7 @@
             } else if (val === 'logic') {
                 promptBox.value = "Gauntlet Challenge: Write a bulletproof JavaScript function that parses complex quoted CSV strings with multiline support.";
             } else if (val === 'speed') {
-                promptBox.value = "Speed Test: Output a highly optimized asynchronous batch processor template in JavaScript.";
+                promptBox.value = "Speed Test: Output a highly optimized asynchronous batch processor template in JavaScript to beat the 0.45s latency target.";
             }
         }
 
