@@ -75,6 +75,16 @@
             margin-bottom: 15px;
             font-size: 15px;
         }
+        .offline-guarantee {
+            background: linear-gradient(135deg, #112211, #162a16);
+            border: 1px solid #238636;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #7ee787;
+        }
         .retro-plaque {
             background: #111418;
             border: 2px solid var(--accent-color);
@@ -164,6 +174,11 @@
     </header>
     
     <div class="container">
+        <!-- Air-Gapped Guarantee Callout -->
+        <div class="offline-guarantee">
+            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> This entire web interface runs client-side and communicates <em>strictly</em> with your local machine's LLM (e.g., Ollama). No telemetry, no external cloud APIs, and zero data leakage. Fully operational offline.
+        </div>
+
         <!-- Retro Hardware Plaque & Metabolic Counter -->
         <div class="retro-plaque">
             <div style="color: var(--accent-color); font-weight: bold; font-size: 13px; letter-spacing: 2px; margin-bottom: 6px;">
@@ -229,10 +244,10 @@
 
         <!-- Local Connection Panel -->
         <div class="panel">
-            <h2>🔌 Local AI Connection Assistant</h2>
+            <h2>🔌 Local AI Connection Assistant (100% Offline Capable)</h2>
             <div id="connection-status" class="status-badge status-checking">Checking Local AI Status...</div>
             <div class="help-box">
-                <strong>Ollama Setup:</strong> Make sure Ollama is running locally with <code>OLLAMA_ORIGINS="*"</code> configured in your environment variables.
+                <strong>Completely Offline Operation:</strong> Once you pull your local model (e.g., <code>ollama pull llama3.2:3b</code>), you can disconnect your internet entirely. This web harness will continue executing local inference queries through your machine's loopback interface with zero cloud connectivity required.
             </div>
             <button class="btn-secondary" onclick="checkOllamaConnection()">Re-check Connection</button>
         </div>
@@ -289,7 +304,7 @@
                 const response = await fetch('http://localhost:11434/api/tags', { method: 'GET' });
                 if (response.ok) {
                     badge.className = 'status-badge status-connected';
-                    badge.textContent = '🟢 Synthetic Data Center Active (Ollama Online)';
+                    badge.textContent = '🟢 Synthetic Data Center Active (Air-Gapped & Online)';
                 } else {
                     throw new Error('Not ok');
                 }
