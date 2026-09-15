@@ -175,7 +175,7 @@
 <body>
     <div class="brand-bar">
         <div class="brand-title">🏢 Garza Global Graviton LLC &mdash; Sovereign Platform</div>
-        <a href="https://github.com/JOxKxER/global-graviton-gauntlet-/releases/latest" target="_blank" rel="noopener noreferrer" class="download-btn">📥 Download Sovereign App (v1.4)</a>
+        <a href="https://github.com/JOxKxER/global-graviton-gauntlet-/releases/latest" target="_blank" rel="noopener noreferrer" class="download-btn">📥 Download Sovereign App (v1.4.5)</a>
     </div>
 
     <header>
@@ -286,7 +286,7 @@
             let serial = localStorage.getItem('ggg_node_serial');
             if (!serial) {
                 const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase();
-                serial = `GGG-V1.4-${randomHex}-ALPHA`;
+                serial = `GGG-V1.4.5-${randomHex}-ALPHA`;
                 localStorage.setItem('ggg_node_serial', serial);
             }
             document.getElementById('node-serial').textContent = serial;
