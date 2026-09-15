@@ -68,13 +68,6 @@
             border-radius: 6px;
             padding: 20px;
         }
-        .manifesto-box {
-            background-color: #1a2230;
-            border-left: 4px solid var(--success-color);
-            padding: 20px;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
         .offline-guarantee {
             background: linear-gradient(135deg, #112211, #162a16);
             border: 1px solid #238636;
@@ -141,15 +134,6 @@
             margin-top: 5px;
             margin-bottom: 15px;
         }
-        .physics-table-wrap { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
-        th, td { border: 1px solid var(--border-color); padding: 8px 12px; text-align: left; }
-        th { background-color: var(--border-color); }
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .tab-btn { background: #21262d; color: var(--text-color); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 4px; cursor: pointer; flex: unset; }
-        .tab-btn.active { background: var(--accent-color); color: #000; font-weight: bold; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
         /* Mobile Responsive Media Queries */
         @media (max-width: 768px) {
@@ -176,7 +160,7 @@
 
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.2)</p>
+        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.3)</p>
     </header>
     
     <div class="container">
@@ -227,35 +211,6 @@
             <div class="help-box">
                 <strong>Step 4: Verify & Execute</strong><br>
                 Ensure your local server is running (usually at <code>http://localhost:11434</code>), check the connection indicator below, and start executing sovereign synthetic inference offline!
-            </div>
-        </div>
-
-        <!-- Sensor & Field Tabs Panel -->
-        <div class="panel">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab(event, 'spatial')">Spatial / GPS</button>
-                <button class="tab-btn" onclick="switchTab(event, 'motion')">Motion & Inertial</button>
-                <button class="tab-btn" onclick="switchTab(event, 'device')">Device & Node</button>
-                <button class="tab-btn" onclick="switchTab(event, 'field')">Field Event</button>
-            </div>
-
-            <div id="spatial" class="tab-content active">
-                <h3>Precision Geolocation</h3>
-                <pre id="gps-output">{ "lat": null, "lon": null, "alt": null, "speed": null }</pre>
-                <button onclick="enableGPS()">Enable GPS Feed</button>
-            </div>
-            <div id="motion" class="tab-content">
-                <h3>Motion & Orientation</h3>
-                <pre id="motion-output">{ "accel": { "x": null, "y": null, "z": null } }</pre>
-                <button onclick="enableSensors()">Enable Sensors</button>
-            </div>
-            <div id="device" class="tab-content">
-                <h3>Device & Node Telemetry</h3>
-                <pre id="device-output">{ "platform": "Sovereign Edge", "status": "Nominal" }</pre>
-            </div>
-            <div id="field" class="tab-content">
-                <h3>Field Event Stream</h3>
-                <pre id="field-output">Awaiting local event triggers...</pre>
             </div>
         </div>
 
@@ -312,37 +267,6 @@
 
             checkOllamaConnection();
         });
-
-        function switchTab(evt, tabName) {
-            const contents = document.getElementsByClassName('tab-content');
-            for (let c of contents) c.classList.remove('active');
-            const buttons = document.getElementsByClassName('tab-btn');
-            for (let b of buttons) b.classList.remove('active');
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        function enableGPS() {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    document.getElementById('gps-output').textContent = JSON.stringify({
-                        lat: pos.coords.latitude,
-                        lon: pos.coords.longitude,
-                        alt: pos.coords.altitude,
-                        speed: pos.coords.speed,
-                        timestamp: pos.timestamp
-                    }, null, 2);
-                }, err => {
-                    document.getElementById('gps-output').textContent = `GPS Error: ${err.message}`;
-                });
-            } else {
-                document.getElementById('gps-output').textContent = "Geolocation not supported by environment.";
-            }
-        }
-
-        function enableSensors() {
-            document.getElementById('motion-output').textContent = "Sensor telemetry active: Local accelerometer polling engaged.";
-        }
 
         async function checkOllamaConnection() {
             const badge = document.getElementById('connection-status');
