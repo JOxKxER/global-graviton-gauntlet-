@@ -11,7 +11,7 @@
             --border-color: #30363d;
             --text-color: #c9d1d9;
             --text-muted: #8b949e;
-            --accent-color: #da3633; /* Striking tactical red accent */
+            --accent-color: #da3633; /* Tactical Red */
             --accent-hover: #f85149;
             --success-color: #238636;
             --warning-color: #d29922;
@@ -114,17 +114,6 @@
             font-size: 14px;
             color: #f0cc70;
         }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .status-checking { background-color: var(--warning-color); color: #000; }
-        .status-connected { background-color: var(--success-color); color: #fff; }
-        .status-disconnected { background-color: var(--danger-color); color: #fff; }
         code {
             background-color: #21262d;
             padding: 2px 6px;
@@ -166,10 +155,6 @@
             h1 { font-size: 1.5rem; }
             h2 { font-size: 1.2rem; }
         }
-        @media (max-width: 480px) {
-            h1 { font-size: 1.3rem; }
-            .offline-guarantee { font-size: 12px; padding: 10px; }
-        }
     </style>
 </head>
 <body>
@@ -206,6 +191,14 @@
             </div>
         </div>
 
+        <!-- Synthetic Data Center Architecture Explanation -->
+        <div class="panel" style="border: 1px solid var(--accent-color);">
+            <h2>🛸 What is the "Synthetic Data Center"?</h2>
+            <p style="color: var(--text-muted);">
+                Instead of relying on massive corporate cloud server farms, your edge computing software acts as a local <strong>Synthetic Data Center</strong>. It wraps around your local Ollama instance, managing zero-copy memory buffers, local execution pacing, and offline inference securely on your own hardware. This gives you high-performance AI execution with absolute data privacy and zero cloud overhead.
+            </p>
+        </div>
+
         <!-- Detailed Beginner-Friendly Step-by-Step Setup Guide -->
         <div class="panel" style="border: 1px solid var(--accent-color);">
             <h2>📖 Beginner's Step-by-Step Guide: How to Set Up & Connect Your Local AI</h2>
@@ -240,7 +233,7 @@
                 <ol style="margin: 5px 0 0 20px; padding: 0;">
                     <li>Ensure Ollama is running on your desktop/laptop computer on the <strong>same Wi-Fi network</strong>.</li>
                     <li>In the <strong>Endpoint URL</strong> box below, replace <code>localhost</code> with your computer's local Wi-Fi IP address (e.g., <code>http://192.168.1.50:11434/...</code>).</li>
-                    <li>For easiest offline execution anywhere, download our official app package from the button at the top of the page!</li>
+                    <li>For easiest offline execution anywhere, download our official app package from the download button at the top of the page!</li>
                 </ol>
             </div>
         </div>
@@ -248,15 +241,12 @@
         <!-- Local Connection Panel -->
         <div class="panel">
             <h2>🔌 Local AI Connection Assistant</h2>
-            <div id="connection-status" class="status-badge status-checking">Checking Local AI Status...</div>
             <div class="help-box">
-                <strong>Connection Check:</strong> This status pings your local Ollama server (<code>http://localhost:11434</code>). When it turns green, your local AI is successfully linked!
+                <strong>Connection Settings:</strong> Ensure your local Ollama server is running. You can test your connection or change the endpoint URL if connecting from mobile.
             </div>
             
             <label for="endpoint">API Endpoint URL (Change to your computer's IP if on mobile):</label>
             <input type="text" id="endpoint" value="http://localhost:11434/v1/chat/completions">
-
-            <button class="btn-secondary" onclick="checkOllamaConnection()">Re-check Local Connection</button>
         </div>
 
         <!-- Harness Control Panel -->
@@ -299,34 +289,7 @@
                     localStorage.setItem('ggg_metabolic_ticks', ticks.toString());
                 }
             }, 1000);
-
-            checkOllamaConnection();
         });
-
-        async function checkOllamaConnection() {
-            const badge = document.getElementById('connection-status');
-            const endpoint = document.getElementById('endpoint').value.trim();
-            let baseUrl = "http://localhost:11434";
-            try {
-                const u = new URL(endpoint);
-                baseUrl = `${u.protocol}//${u.host}`;
-            } catch {}
-
-            badge.className = 'status-badge status-checking';
-            badge.textContent = 'Verifying Air-Gapped Local Status...';
-            try {
-                const response = await fetch(`${baseUrl}/api/tags`, { method: 'GET' });
-                if (response.ok) {
-                    badge.className = 'status-badge status-connected';
-                    badge.textContent = '🟢 Synthetic Data Center Active (Air-Gapped & Online)';
-                } else {
-                    throw new Error('Not ok');
-                }
-            } catch (err) {
-                badge.className = 'status-badge status-disconnected';
-                badge.textContent = '🔴 Disconnected (Check Ollama, CORS & IP)';
-            }
-        }
 
         document.getElementById('run-btn').addEventListener('click', async () => {
             const output = document.getElementById('output');
