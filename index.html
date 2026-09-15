@@ -141,10 +141,14 @@
             margin-top: 5px;
             margin-bottom: 15px;
         }
+        .physics-table-wrap {
+            overflow-x: auto;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            min-width: 600px;
         }
         th, td {
             border: 1px solid var(--border-color);
@@ -159,6 +163,22 @@
             border-top: 1px solid var(--border-color);
             color: var(--text-muted);
             font-size: 13px;
+        }
+
+        /* Mobile Responsive Media Queries */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .brand-bar { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; }
+            .download-btn { width: 100%; text-align: center; box-sizing: border-box; }
+            .retro-plaque div[style*="display: flex"] { flex-direction: column; gap: 6px; }
+            button, .btn-secondary { width: 100%; margin-left: 0; margin-top: 5px; box-sizing: border-box; }
+            .panel { padding: 12px; }
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.2rem; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.3rem; }
+            .offline-guarantee { font-size: 12px; padding: 10px; }
         }
     </style>
 </head>
@@ -209,37 +229,39 @@
             <p style="color: var(--text-muted); margin-top: 0;">
                 Comparing core mathematical execution against centralized cloud transit bottlenecks:
             </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Subsystem Module</th>
-                        <th>Execution Metric</th>
-                        <th>Operational Advantage</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Master Active Inference Node</strong></td>
-                        <td><strong>0.029 ms (~29 µs)</strong> per tick</td>
-                        <td>Operates at ~34,000 Hz, massively outperforming standard controllers.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Zero-Copy Memory Bus (mmap)</strong></td>
-                        <td><strong>14.7 µs</strong> per batch</td>
-                        <td>Eliminates memory allocation overhead and duplication penalties.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Holographic Compression (AdS/CFT)</strong></td>
-                        <td><strong>3.27 ms</strong> per bulk matrix</td>
-                        <td>Achieves 98.0% true compression for jammed tactical links.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Anti-Tamper Hardware Zeroize</strong></td>
-                        <td><strong>0.75 ms</strong> bulk wipe</td>
-                        <td>Executes physical key destruction faster than any extraction window.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="physics-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subsystem Module</th>
+                            <th>Execution Metric</th>
+                            <th>Operational Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Master Active Inference Node</strong></td>
+                            <td><strong>0.029 ms (~29 µs)</strong> per tick</td>
+                            <td>Operates at ~34,000 Hz, massively outperforming standard controllers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zero-Copy Memory Bus (mmap)</strong></td>
+                            <td><strong>14.7 µs</strong> per batch</td>
+                            <td>Eliminates memory allocation overhead and duplication penalties.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Holographic Compression (AdS/CFT)</strong></td>
+                            <td><strong>3.27 ms</strong> per bulk matrix</td>
+                            <td>Achieves 98.0% true compression for jammed tactical links.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Anti-Tamper Hardware Zeroize</strong></td>
+                            <td><strong>0.75 ms</strong> bulk wipe</td>
+                            <td>Executes physical key destruction faster than any extraction window.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Local Connection Panel -->
