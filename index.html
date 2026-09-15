@@ -94,6 +94,14 @@
             margin-bottom: 15px;
             font-size: 14px;
         }
+        .mobile-box {
+            background-color: #221c11;
+            border-left: 4px solid var(--warning-color);
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #f0cc70;
+        }
         .status-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -160,13 +168,13 @@
 
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.3)</p>
+        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.4)</p>
     </header>
     
     <div class="container">
         <!-- Air-Gapped Guarantee Callout -->
         <div class="offline-guarantee">
-            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> This entire web interface runs client-side and communicates <em>strictly</em> with your local machine's LLM via loopback. No telemetry, no external cloud APIs, and zero data leakage. Fully operational offline.
+            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> This platform runs client-side and communicates <em>strictly</em> with your local machine's AI via loopback. No telemetry, no cloud servers, and zero data leakage. Fully operational offline.
         </div>
 
         <!-- Retro Hardware Plaque & Metabolic Counter -->
@@ -183,34 +191,42 @@
             </div>
         </div>
 
-        <!-- Detailed Step-by-Step Local AI Download & Setup Guide -->
+        <!-- Detailed Beginner-Friendly Step-by-Step Setup Guide -->
         <div class="panel" style="border: 1px solid var(--success-color);">
-            <h2>📖 Complete Setup Guide: Downloading & Connecting Your Local AI</h2>
+            <h2>📖 Beginner's Step-by-Step Guide: How to Set Up & Connect Your Local AI</h2>
             <p style="color: var(--text-muted); margin-top: 5px;">
-                Because this sovereign platform operates 100% locally with zero cloud dependencies, you need an open-source local LLM installed on your system. Follow these simple steps to get set up:
+                Because this platform operates 100% locally with zero cloud servers, your computer needs a local AI engine installed. Follow these exact instructions:
             </p>
             
             <div class="help-box">
-                <strong>Step 1: Download & Install a Local LLM Runtime</strong><br>
-                Download and install <a href="https://ollama.com" target="_blank" style="color: var(--accent-color); font-weight: bold;">Ollama</a> (compatible with Windows, Mac, and Linux) or <a href="https://lmstudio.ai" target="_blank" style="color: var(--accent-color); font-weight: bold;">LM Studio</a>. Ollama is recommended for lightweight local execution.
+                <strong>Step 1: Download & Install Ollama (Free Local AI Engine)</strong><br>
+                Go to <a href="https://ollama.com" target="_blank" style="color: var(--accent-color); font-weight: bold;">ollama.com</a>, download the installer for your computer (Windows, Mac, or Linux), and run it to install Ollama.
             </div>
 
             <div class="help-box">
-                <strong>Step 2: Pull Your Preferred Open-Source Model</strong><br>
-                Open your computer's terminal (Command Prompt, Terminal, or PowerShell) and download a fast local model by running:<br>
-                <code>ollama pull llama3.2:3b</code> (or another model like <code>llama3</code> or <code>mistral</code>).
+                <strong>Step 2: How to Open Your Computer's Terminal & Download a Model</strong><br>
+                &bull; <strong>Windows:</strong> Press the Windows Key on your keyboard, type <code>cmd</code> or <code>PowerShell</code>, and press Enter.<br>
+                &bull; <strong>Mac:</strong> Press <code>Cmd + Spacebar</code>, type <code>Terminal</code>, and press Enter.<br>
+                Once the black terminal window opens, type this exact command and press <strong>Enter</strong> to download a lightweight AI model:<br>
+                <code>ollama pull llama3.2:3b</code>
             </div>
 
             <div class="help-box">
-                <strong>Step 3: Enable Local Browser Access (CORS Configuration)</strong><br>
-                Web browsers block web pages from communicating with local software unless permitted. To allow this site to talk to your local model:<br>
-                &bull; <strong>Mac / Linux (Terminal):</strong> Run <code>export OLLAMA_ORIGINS="*"</code> before launching Ollama, or set it in your system environment variables.<br>
-                &bull; <strong>Windows (System Environment Variables):</strong> Add a new user or system environment variable named <code>OLLAMA_ORIGINS</code> with the value <code>*</code>, then restart Ollama.
+                <strong>Step 3: Allow Browser Connection (CORS Fix)</strong><br>
+                Web browsers protect local ports for security. To allow this website to communicate with your computer's local AI:<br>
+                &bull; <strong>Mac / Linux:</strong> In your terminal, type <code>export OLLAMA_ORIGINS="*"</code> and press Enter before running Ollama.<br>
+                &bull; <strong>Windows:</strong> Search your Windows menu for <em>"Edit the system environment variables"</em>, click <strong>Environment Variables</strong>, click <strong>New</strong> under User variables, enter Variable name: <code>OLLAMA_ORIGINS</code> and Variable value: <code>*</code>, then click OK and restart Ollama.
             </div>
 
-            <div class="help-box">
-                <strong>Step 4: Verify & Execute</strong><br>
-                Ensure your local server is running (usually at <code>http://localhost:11434</code>), check the connection indicator below, and start executing sovereign synthetic inference offline!
+            <!-- Mobile User Guide Notice -->
+            <div class="mobile-box">
+                📱 <strong>Instructions for Mobile & Tablet Users:</strong><br>
+                Smartphones and tablets cannot run local desktop AI runtimes like Ollama natively. To use this web app on mobile:
+                <ol style="margin: 5px 0 0 20px; padding: 0;">
+                    <li>Ensure Ollama is running on your desktop/laptop computer on the <strong>same Wi-Fi network</strong>.</li>
+                    <li>In the <strong>Endpoint URL</strong> box below, replace <code>localhost</code> with your computer's local Wi-Fi IP address (e.g., <code>http://192.168.1.50:11434/...</code>).</li>
+                    <li>For easiest offline execution anywhere, download our official app package from the button at the top of the page!</li>
+                </ol>
             </div>
         </div>
 
@@ -219,8 +235,12 @@
             <h2>🔌 Local AI Connection Assistant</h2>
             <div id="connection-status" class="status-badge status-checking">Checking Local AI Status...</div>
             <div class="help-box">
-                <strong>Connection Check:</strong> This status badge pings your local Ollama instance (<code>http://localhost:11434</code>). If it shows green, your local AI is successfully linked and ready for offline operation.
+                <strong>Connection Check:</strong> This status pings your local Ollama server (<code>http://localhost:11434</code>). When it turns green, your local AI is successfully linked!
             </div>
+            
+            <label for="endpoint">API Endpoint URL (Change to your computer's IP if on mobile):</label>
+            <input type="text" id="endpoint" value="http://localhost:11434/v1/chat/completions">
+
             <button class="btn-secondary" onclick="checkOllamaConnection()">Re-check Local Connection</button>
         </div>
 
@@ -270,10 +290,18 @@
 
         async function checkOllamaConnection() {
             const badge = document.getElementById('connection-status');
+            const endpoint = document.getElementById('endpoint').value.trim();
+            // Derive base URL for tags check
+            let baseUrl = "http://localhost:11434";
+            try {
+                const u = new URL(endpoint);
+                baseUrl = `${u.protocol}//${u.host}`;
+            } catch {}
+
             badge.className = 'status-badge status-checking';
             badge.textContent = 'Verifying Air-Gapped Local Status...';
             try {
-                const response = await fetch('http://localhost:11434/api/tags', { method: 'GET' });
+                const response = await fetch(`${baseUrl}/api/tags`, { method: 'GET' });
                 if (response.ok) {
                     badge.className = 'status-badge status-connected';
                     badge.textContent = '🟢 Synthetic Data Center Active (Air-Gapped & Online)';
@@ -282,12 +310,13 @@
                 }
             } catch (err) {
                 badge.className = 'status-badge status-disconnected';
-                badge.textContent = '🔴 Disconnected (Check Ollama & CORS)';
+                badge.textContent = '🔴 Disconnected (Check Ollama, CORS & IP)';
             }
         }
 
         document.getElementById('run-btn').addEventListener('click', async () => {
             const output = document.getElementById('output');
+            const endpoint = document.getElementById('endpoint').value.trim();
             const model = document.getElementById('model').value;
             const prompt = document.getElementById('prompt').value;
 
@@ -295,7 +324,7 @@
             const startTime = performance.now();
 
             try {
-                const response = await fetch('http://localhost:11434/v1/chat/completions', {
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -314,7 +343,7 @@
 
                 output.textContent = `Execution Mode: AIR-GAPPED SYNTHETIC DC | Latency: ${latency}s\n\nResult:\n${reply}`;
             } catch (err) {
-                output.textContent = `Connection Error: ${err.message}\n\nEnsure Ollama is running and OLLAMA_ORIGINS="*" is set!`;
+                output.textContent = `Connection Error: ${err.message}\n\nEnsure Ollama is running, OLLAMA_ORIGINS="*" is configured, and your endpoint URL is correct!`;
             }
         });
     </script>
