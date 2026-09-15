@@ -176,13 +176,13 @@
 
     <header>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.1)</p>
+        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.2)</p>
     </header>
     
     <div class="container">
         <!-- Air-Gapped Guarantee Callout -->
         <div class="offline-guarantee">
-            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> This entire web interface runs client-side and communicates <em>strictly</em> with your local machine's LLM (e.g., Ollama). No telemetry, no external cloud APIs, and zero data leakage. Fully operational offline.
+            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> This entire web interface runs client-side and communicates <em>strictly</em> with your local machine's LLM via loopback. No telemetry, no external cloud APIs, and zero data leakage. Fully operational offline.
         </div>
 
         <!-- Retro Hardware Plaque & Metabolic Counter -->
@@ -199,20 +199,34 @@
             </div>
         </div>
 
-        <!-- Instruction Guide & How-To Use Panel -->
-        <div class="panel" style="border: 1px solid var(--accent-color);">
-            <h2>📖 Instruction Guide & How-To Use</h2>
+        <!-- Detailed Step-by-Step Local AI Download & Setup Guide -->
+        <div class="panel" style="border: 1px solid var(--success-color);">
+            <h2>📖 Complete Setup Guide: Downloading & Connecting Your Local AI</h2>
             <p style="color: var(--text-muted); margin-top: 5px;">
-                Welcome to the Garza Global Graviton LLC sovereign platform. Follow these steps to operate your local synthetic data center:
+                Because this sovereign platform operates 100% locally with zero cloud dependencies, you need an open-source local LLM installed on your system. Follow these simple steps to get set up:
             </p>
+            
             <div class="help-box">
-                <strong>1. Run Offline & Link Ollama:</strong> Ensure Ollama is running locally with CORS enabled (`export OLLAMA_ORIGINS="*"`). The bridge connects automatically via local loopback.
+                <strong>Step 1: Download & Install a Local LLM Runtime</strong><br>
+                Download and install <a href="https://ollama.com" target="_blank" style="color: var(--accent-color); font-weight: bold;">Ollama</a> (compatible with Windows, Mac, and Linux) or <a href="https://lmstudio.ai" target="_blank" style="color: var(--accent-color); font-weight: bold;">LM Studio</a>. Ollama is recommended for lightweight local execution.
             </div>
+
             <div class="help-box">
-                <strong>2. Use Spatial/GPS & Motion Feeds:</strong> Click the sensor tabs below to grant browser permission and test physical device telemetry ingestion locally.
+                <strong>Step 2: Pull Your Preferred Open-Source Model</strong><br>
+                Open your computer's terminal (Command Prompt, Terminal, or PowerShell) and download a fast local model by running:<br>
+                <code>ollama pull llama3.2:3b</code> (or another model like <code>llama3</code> or <code>mistral</code>).
             </div>
+
             <div class="help-box">
-                <strong>3. Run Synthetic Inference:</strong> Type your prompt or task into the harness control panel below and transmit directly to your local edge engine.
+                <strong>Step 3: Enable Local Browser Access (CORS Configuration)</strong><br>
+                Web browsers block web pages from communicating with local software unless permitted. To allow this site to talk to your local model:<br>
+                &bull; <strong>Mac / Linux (Terminal):</strong> Run <code>export OLLAMA_ORIGINS="*"</code> before launching Ollama, or set it in your system environment variables.<br>
+                &bull; <strong>Windows (System Environment Variables):</strong> Add a new user or system environment variable named <code>OLLAMA_ORIGINS</code> with the value <code>*</code>, then restart Ollama.
+            </div>
+
+            <div class="help-box">
+                <strong>Step 4: Verify & Execute</strong><br>
+                Ensure your local server is running (usually at <code>http://localhost:11434</code>), check the connection indicator below, and start executing sovereign synthetic inference offline!
             </div>
         </div>
 
@@ -247,12 +261,12 @@
 
         <!-- Local Connection Panel -->
         <div class="panel">
-            <h2>🔌 Local AI Connection Assistant (100% Offline Capable)</h2>
+            <h2>🔌 Local AI Connection Assistant</h2>
             <div id="connection-status" class="status-badge status-checking">Checking Local AI Status...</div>
             <div class="help-box">
-                <strong>Completely Offline Operation:</strong> Once you pull your local model (e.g., <code>ollama pull llama3.2:3b</code>), you can disconnect your internet entirely. This web harness will continue executing local inference queries through your machine's loopback interface.
+                <strong>Connection Check:</strong> This status badge pings your local Ollama instance (<code>http://localhost:11434</code>). If it shows green, your local AI is successfully linked and ready for offline operation.
             </div>
-            <button class="btn-secondary" onclick="checkOllamaConnection()">Re-check Connection</button>
+            <button class="btn-secondary" onclick="checkOllamaConnection()">Re-check Local Connection</button>
         </div>
 
         <!-- Harness Control Panel -->
