@@ -163,6 +163,18 @@
             color: var(--text-color);
         }
         .chat-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .options-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+        .options-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-color); margin: 0; }
+        .options-row input[type="checkbox"] { width: auto; margin: 0; cursor: pointer; }
+        
         .archive-panel {
             background-color: #111418;
             border: 1px solid var(--accent-color);
@@ -254,22 +266,6 @@
             <input type="text" id="model" value="qwen2.5-coder:latest">
         </div>
 
-        <!-- Comprehensive Step-by-Step Setup Guide -->
-        <div class="panel" style="border: 1px solid var(--border-color);">
-            <h2>📖 Master Setup & Troubleshooting Guide</h2>
-            <div class="help-box">
-                <h3>Step 1: Download & Run Ollama</h3>
-                <p>Download from <a href="https://ollama.com" target="_blank" style="color: var(--accent-color);">ollama.com</a> and verify it's running via terminal:</p>
-                <pre>ollama serve</pre>
-            </div>
-            <div class="help-box">
-                <h3>Step 2: Pull Model & Enable CORS</h3>
-                <p>Pull your model and ensure cross-origin requests are enabled:</p>
-                <pre>ollama pull qwen2.5-coder:latest</pre>
-                <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">*If using browser file:// mode, set environment variable <code>OLLAMA_ORIGINS="*"</code> and restart Ollama.*</p>
-            </div>
-        </div>
-
         <!-- Native Multi-Turn Chat & Smart Archival Panel -->
         <div class="panel">
             <h2>💬 Native Sovereign AI Workspace & Hardware Acceleration</h2>
@@ -283,7 +279,17 @@
                 </div>
             </div>
 
-            <textarea id="prompt" rows="3" placeholder="Type your prompt or app request (e.g., 'Build a 2D map widget')..."></textarea>
+            <!-- Options Row: Send on Enter & Grammar Polish -->
+            <div class="options-row">
+                <label>
+                    <input type="checkbox" id="send-on-enter-toggle" checked> Enter key transmits to AI (Shift + Enter for new line)
+                </label>
+                <label>
+                    <input type="checkbox" id="grammar-polish-toggle"> ✨ Auto-Polish Grammar & Spelling
+                </label>
+            </div>
+
+            <textarea id="prompt" rows="3" placeholder="Type your prompt, paste code, or request an app (Press Enter to transmit)..."></textarea>
             
             <div class="chat-controls">
                 <button id="run-btn" style="flex: 2;">Transmit to Local AI</button>
@@ -385,7 +391,6 @@
             badge.className = 'status-badge status-offline';
             badge.textContent = '🟡 Pinging local endpoint...';
 
-            // Convert chat endpoint to base tags endpoint for lightweight health check
             let healthUrl = "http://localhost:11434/api/tags";
             try {
                 const u = new URL(endpointInput);
@@ -435,6 +440,12 @@
             if (localStorage.getItem('ggg_pref_subject')) document.getElementById('archive-subject').value = localStorage.getItem('ggg_pref_subject');
             if (localStorage.getItem('ggg_pref_method')) document.getElementById('archive-method').value = localStorage.getItem('ggg_pref_method');
             if (localStorage.getItem('ggg_pref_freq')) document.getElementById('archive-frequency').value = localStorage.getItem('ggg_pref_freq');
+            if (localStorage.getItem('ggg_pref_send_enter') !== null) {
+                document.getElementById('send-on-enter-toggle').checked = localStorage.getItem('ggg_pref_send_enter') === 'true';
+            }
+            if (localStorage.getItem('ggg_pref_grammar') !== null) {
+                document.getElementById('grammar-polish-toggle').checked = localStorage.getItem('ggg_pref_grammar') === 'true';
+            }
 
             ['archive-subject', 'archive-method', 'archive-frequency'].forEach(id => {
                 document.getElementById(id).addEventListener('change', () => {
@@ -444,7 +455,22 @@
                 });
             });
 
-            // Initial health check
+            document.getElementById('send-on-enter-toggle').addEventListener('change', (e) => {
+                localStorage.setItem('ggg_pref_send_enter', e.target.checked);
+            });
+            document.getElementById('grammar-polish-toggle').addEventListener('change', (e) => {
+                localStorage.setItem('ggg_pref_grammar', e.target.checked);
+            });
+
+            // Enter key shortcut handling
+            document.getElementById('prompt').addEventListener('keydown', (e) => {
+                const sendOnEnter = document.getElementById('send-on-enter-toggle').checked;
+                if (sendOnEnter && e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    triggerTransmission();
+                }
+            });
+
             checkOllamaConnection();
             document.getElementById('endpoint').addEventListener('change', checkOllamaConnection);
         });
@@ -480,285 +506,4 @@
             if (foundCode.trim()) {
                 lastExtractedCode = foundCode.trim();
             }
-            return text.replace(/\n/g, '<br>').replace(/```([\s\S]*?)```/g, '<pre style="background:#090d13; padding:10px; border-radius:4px; overflow-x:auto;"><code>$1</code></pre>');
-        }
-
-        function clearChatHistory() {
-            if (chatHistory.length > 1 && confirm("Do you want to execute an archive backup before clearing this session?")) {
-                executeSmartArchive();
-            }
-            chatHistory = [chatHistory[0]];
-            lastExtractedCode = "";
-            currentSessionId = Math.random().toString(36).substring(2, 10).toUpperCase();
-            document.getElementById('session-id').textContent = currentSessionId;
-            document.getElementById('chat-window').innerHTML = `
-                <div class="chat-message ai-msg">
-                    <strong>Sovereign AI Guide:</strong> Conversation memory cleared. Ready for your next objective.
-                </div>
-            `;
-        }
-
-        function exportLastCodeAsFile() {
-            if (!lastExtractedCode) {
-                alert("No executable code block found in the recent AI response to save.");
-                return;
-            }
-            const blob = new Blob([lastExtractedCode], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'ggg_generated_app.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function performSilentVaultSave(subjectTag) {
-            const vaultKey = `ggg_archive_${Date.now()}`;
-            const archivePackage = {
-                metadata: {
-                    nodeSerial: document.getElementById('node-serial').textContent,
-                    sessionId: currentSessionId,
-                    subjectMatter: subjectTag,
-                    timestamp: new Date().toISOString(),
-                    totalTurns: chatHistory.length - 1
-                },
-                history: chatHistory.slice(1).map(m => ({ role: m.role, content: m.content, timestamp: m.timestamp || new Date().toISOString() }))
-            };
-            localStorage.setItem(vaultKey, JSON.stringify(archivePackage));
-            pruneOldVaultEntries();
-        }
-
-        function pruneOldVaultEntries() {
-            let keys = Object.keys(localStorage).filter(k => k.startsWith('ggg_archive_') && k !== 'ggg_archive_live').sort();
-            if (keys.length > 25) {
-                const excess = keys.length - 25;
-                for (let i = 0; i < excess; i++) {
-                    localStorage.removeItem(keys[i]);
-                }
-            }
-        }
-
-        function executeSmartArchive() {
-            const subject = document.getElementById('archive-subject').value.trim() || "General Session";
-            const method = document.getElementById('archive-method').value;
-            const frequency = document.getElementById('archive-frequency').value;
-            const timestamp = new Date().toISOString();
-
-            if (chatHistory.length <= 1) {
-                alert("No conversation history to archive yet.");
-                return;
-            }
-
-            const archivePackage = {
-                metadata: {
-                    nodeSerial: document.getElementById('node-serial').textContent,
-                    sessionId: currentSessionId,
-                    subjectMatter: subject,
-                    timestamp: timestamp,
-                    frequencyMode: frequency,
-                    totalTurns: chatHistory.length - 1
-                },
-                history: chatHistory.slice(1).map(m => ({ role: m.role, content: m.content, timestamp: m.timestamp || timestamp }))
-            };
-
-            let fileContent = "";
-            let fileExtension = "json";
-            let mimeType = "application/json";
-
-            if (method === 'json') {
-                fileContent = JSON.stringify(archivePackage, null, 2);
-                fileExtension = "json";
-            } else if (method === 'markdown') {
-                fileContent = `# GGG Sovereign Session Archive\n- **Subject:** ${subject}\n- **Session ID:** ${currentSessionId}\n- **Timestamp:** ${timestamp}\n- **Node:** ${archivePackage.metadata.nodeSerial}\n\n---\n\n` +
-                    archivePackage.history.map((m, idx) => `### Turn ${idx + 1} — ${m.role.toUpperCase()} (${m.timestamp})\n${m.content}\n`).join('\n');
-                fileExtension = "md";
-                mimeType = "text/markdown;charset=utf-8";
-            } else if (method === 'csv') {
-                let csvRows = ["Turn,Role,Timestamp,Content"];
-                archivePackage.history.forEach((m, idx) => {
-                    let escapedContent = m.content.replace(/"/g, '""');
-                    csvRows.push(`${idx + 1},"${m.role}","${m.timestamp}","${escapedContent}"`);
-                });
-                fileContent = csvRows.join("\r\n");
-                fileExtension = "csv";
-                mimeType = "text/csv;charset=utf-8";
-            }
-
-            const vaultKey = `ggg_archive_${Date.now()}`;
-            localStorage.setItem(vaultKey, JSON.stringify(archivePackage));
-            pruneOldVaultEntries();
-
-            const blob = new Blob([fileContent], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `GGG_Archive_${subject.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.${fileExtension}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert(`Archive successfully generated and stored locally via [${method.toUpperCase()}] format!`);
-            if (document.getElementById('archive-log').style.display === 'block') {
-                loadArchivedLogs();
-            }
-        }
-
-        function loadArchivedLogs() {
-            const logContainer = document.getElementById('archive-log');
-            const entriesList = document.getElementById('archive-entries-list');
-            entriesList.innerHTML = "";
-
-            let keys = Object.keys(localStorage).filter(k => k.startsWith('ggg_archive_') && k !== 'ggg_archive_live').sort().reverse();
-            
-            if (keys.length === 0) {
-                entriesList.innerHTML = `<div style="color: var(--text-muted); padding: 5px;">No stored archives found in local vault.</div>`;
-                logContainer.style.display = 'block';
-                return;
-            }
-
-            keys.forEach(key => {
-                try {
-                    const data = JSON.parse(localStorage.getItem(key));
-                    const meta = data.metadata || { subjectMatter: 'Unknown', timestamp: 'N/A', totalTurns: data.history?.length || 0, sessionId: '---' };
-                    
-                    const entryDiv = document.createElement('div');
-                    entryDiv.className = 'archive-entry';
-                    entryDiv.innerHTML = `
-                        <div>
-                            <strong style="color: #ffffff;">${meta.subjectMatter}</strong><br>
-                            <span style="color: var(--text-muted); font-size: 11px;">ID: ${meta.sessionId} | Turns: ${meta.totalTurns} | ${new Date(meta.timestamp).toLocaleString()}</span>
-                        </div>
-                        <div style="display: flex; gap: 6px;">
-                            <button style="padding: 4px 8px; font-size: 11px; background: var(--success-color);" onclick="restoreArchive('${key}')">♻ Restore</button>
-                            <button style="padding: 4px 8px; font-size: 11px;" onclick="downloadVaultEntry('${key}')">⬇ Download</button>
-                            <button style="padding: 4px 8px; font-size: 11px; background: var(--danger-color);" onclick="deleteVaultEntry('${key}')">✕</button>
-                        </div>
-                    `;
-                    entriesList.appendChild(entryDiv);
-                } catch (e) {
-                    console.error("Corrupted vault entry", key);
-                }
-            });
-
-            logContainer.style.display = 'block';
-        }
-
-        function restoreArchive(key) {
-            const raw = localStorage.getItem(key);
-            if (!raw) return;
-            try {
-                const pkg = JSON.parse(raw);
-                if (!pkg.history || !Array.isArray(pkg.history)) throw new Error("Invalid format");
-                
-                chatHistory = [chatHistory[0]];
-                document.getElementById('chat-window').innerHTML = `
-                    <div class="chat-message ai-msg">
-                        <strong>Sovereign AI Guide:</strong> Session restored from local vault archive (${pkg.metadata?.subjectMatter || 'Loaded Archive'}).
-                    </div>
-                `;
-
-                pkg.history.forEach(m => {
-                    chatHistory.push(m);
-                    appendMessage(m.role, m.content, m.timestamp);
-                });
-
-                if (pkg.metadata?.sessionId) {
-                    currentSessionId = pkg.metadata.sessionId;
-                    document.getElementById('session-id').textContent = currentSessionId;
-                }
-                alert("Archive successfully restored into live active memory!");
-            } catch (err) {
-                alert("Failed to restore archive: " + err.message);
-            }
-        }
-
-        function downloadVaultEntry(key) {
-            const raw = localStorage.getItem(key);
-            if (!raw) return;
-            const blob = new Blob([raw], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${key}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function deleteVaultEntry(key) {
-            if (confirm("Permanently delete this archive from your local vault?")) {
-                localStorage.removeItem(key);
-                loadArchivedLogs();
-            }
-        }
-
-        document.getElementById('run-btn').addEventListener('click', async () => {
-            const endpoint = document.getElementById('endpoint').value.trim();
-            const model = document.getElementById('model').value.trim();
-            const promptInput = document.getElementById('prompt');
-            const userText = promptInput.value.trim();
-            const btn = document.getElementById('run-btn');
-
-            if (!userText) return;
-
-            gggEngine.igniteBoost();
-
-            const userTimestamp = new Date().toISOString();
-            appendMessage('user', userText, userTimestamp);
-            chatHistory.push({ role: "user", content: userText, timestamp: userTimestamp });
-            promptInput.value = '';
-            
-            btn.disabled = true;
-            btn.textContent = 'Processing Locally (Accelerated)...';
-
-            const aiMsgId = 'ai-response-' + Date.now();
-            const chatWindow = document.getElementById('chat-window');
-            const placeholderDiv = document.createElement('div');
-            placeholderDiv.className = 'chat-message ai-msg';
-            placeholderDiv.id = aiMsgId;
-            placeholderDiv.innerHTML = `<strong>Sovereign AI:</strong><br><em>Computing locally via air-gapped synthetic data center (Hardware boost active)...</em>`;
-            chatWindow.appendChild(placeholderDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: model,
-                        messages: chatHistory.map(m => ({ role: m.role, content: m.content })),
-                        stream: false
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}. Make sure Ollama is running and model '${model}' is pulled.`);
-                }
-
-                const data = await response.json();
-                const reply = data.choices?.[0]?.message?.content || data.response || JSON.stringify(data);
-                const aiTimestamp = new Date().toISOString();
-
-                chatHistory.push({ role: "assistant", content: reply, timestamp: aiTimestamp });
-                placeholderDiv.innerHTML = `<strong>Sovereign AI:</strong><br>` + formatAIResponse(reply);
-
-                const freq = document.getElementById('archive-frequency').value;
-                if (freq === 'realtime') {
-                    performSilentVaultSave(document.getElementById('archive-subject').value.trim() || 'Realtime Vault Snapshot');
-                }
-            } catch (err) {
-                placeholderDiv.innerHTML = `<strong>Connection Error:</strong><br>${err.message}<br><br><em>Need help? Make sure Ollama is running and OLLAMA_ORIGINS="*" is set.</em>`;
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Transmit to Local AI';
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-                gggEngine.releaseBoost();
-            }
-        });
-    </script>
-</body>
-</html>
+            return text.replace(/\n/g, '<br>').replace(/```([\s\S]*?)
