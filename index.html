@@ -42,10 +42,10 @@
         button { background: var(--accent); color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
         button:hover { background: #ff7733; }
 
-        /* FAQ & Troubleshooting Styles (Neat & Clean at Bottom) */
+        /* FAQ & Troubleshooting Styles */
         .faq-section { font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); }
-        .faq-item { margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        .faq-q { color: var(--accent); font-weight: bold; margin-bottom: 4px; cursor: pointer; }
+        .faq-item { margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .faq-q { color: var(--accent); font-weight: bold; margin-bottom: 4px; }
         .faq-a { padding-left: 10px; border-left: 2px solid var(--border); }
         code { background: #070a12; color: var(--success); padding: 2px 5px; border-radius: 3px; font-size: 0.8rem; }
     </style>
@@ -73,7 +73,7 @@
         <!-- Local AI Config Panel -->
         <div class="panel" id="panel-status">
             <h2>⚙️ C2 Node Health & Status</h2>
-            <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 10px;">
+            <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <div>
                     <label>Daemon Link State:</label>
                     <div id="daemon-status" class="status-badge">Checking local endpoint...</div>
@@ -91,29 +91,38 @@
             <input type="text" id="model-id" value="qwen2.5-coder:latest">
         </div>
 
-        <!-- FAQ & Troubleshooting Panel (Neatly tucked at the bottom) -->
+        <!-- FAQ & Troubleshooting Panel -->
         <div class="panel faq-section" id="panel-faq">
             <h2>📖 FAQ & Troubleshooting Guide</h2>
             
             <div class="faq-item">
-                <div class="faq-q">Q: Why is the Daemon Status showing offline or failing to connect?</div>
+                <div class="faq-q">Q: How do I optionally have Ollama run and power AI processing locally?</div>
                 <div class="faq-a">
-                    Local browsers block web pages from fetching local ports unless Ollama is explicitly configured to accept cross-origin requests. Make sure you start your local server in PowerShell using: <br>
-                    <code>$env:OLLAMA_ORIGINS="*"</code> followed by <code>ollama serve</code>.
+                    To allow this standalone web interface to optionally interface with your local model compute engine, launch PowerShell and initialize Ollama with CORS permissions enabled:<br>
+                    <code>$env:OLLAMA_ORIGINS="*"</code><br>
+                    <code>ollama serve</code><br>
+                    Once active, the daemon status above will turn green, enabling your browser client to seamlessly pass context to your local model offline.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: Why is the Daemon Status showing offline?</div>
+                <div class="faq-a">
+                    Browsers block local scripts from talking to background ports unless the origin environment variable is open. Make sure <code>ollama serve</code> is running in your background terminal.
                 </div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">Q: Why use the local IP address (192.168.1.236) instead of localhost?</div>
                 <div class="faq-a">
-                    Binding your endpoint directly to your machine's local interface network parameters ensures consistent zero-trust socket resolution and prevents loopback translation restrictions inside standalone HTML clients.
+                    Targeting your machine's physical network IP adapter guarantees correct socket resolution across local boundary policies without triggering loopback blockages in static HTML previews.
                 </div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-q">Q: Is this interface completely offline?</div>
+                <div class="faq-q">Q: Is this node completely private and offline?</div>
                 <div class="faq-a">
-                    Yes. This file executes entirely from local storage via your browser without hitting external cloud servers, maintaining full data sovereignty and local model execution privacy.
+                    Yes. All execution loops run locally on hardware without routing telemetry or state data through external cloud gateways.
                 </div>
             </div>
         </div>
@@ -153,7 +162,7 @@
                     throw new Error();
                 }
             } catch (err) {
-                badge.innerText = "OFFLINE [CHECK OLLAMA SERVE & OLLAMA_ORIGINS]";
+                badge.innerText = "OFFLINE [RUN 'ollama serve' WITH OLLAMA_ORIGINS=*]";
                 badge.className = "status-badge";
             }
         }
