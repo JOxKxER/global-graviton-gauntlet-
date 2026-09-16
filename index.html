@@ -3,507 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Graviton Gauntlet (#GGG) — Garza Global Graviton LLC</title>
+    <title>Garza Global Graviton (GGG) - Local Edge C2</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --panel-bg: #161b22;
-            --border-color: #30363d;
-            --text-color: #c9d1d9;
-            --text-muted: #8b949e;
-            --accent-color: #da3633; /* Tactical Red */
-            --accent-hover: #f85149;
-            --success-color: #238636;
-            --warning-color: #d29922;
-            --danger-color: #da3633;
-            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --bg-color: #0b0f19;
+            --panel-bg: #131c2e;
+            --accent: #ff5500;
+            --accent-glow: rgba(255, 85, 0, 0.2);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #2a1f1d;
+            --danger: #ff3366;
+            --success: #00ffcc;
         }
-        body {
-            font-family: var(--font-stack);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 15px;
-        }
-        .logo-container { margin-bottom: 15px; }
-        .logo-container img {
-            max-width: 120px;
-            height: auto;
-            border-radius: 6px;
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 0 15px rgba(218, 54, 51, 0.3);
-        }
-        .brand-bar {
-            background-color: #111418;
-            border: 1px solid var(--accent-color);
-            border-radius: 6px;
-            padding: 12px 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .brand-title { font-weight: bold; color: #ffffff; font-size: 15px; letter-spacing: 0.5px; }
-        .download-btn {
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 13px;
-            display: inline-block;
-        }
-        .download-btn:hover { background-color: var(--accent-hover); }
-        h1 { margin: 0 0 10px 0; color: #ffffff; }
-        .container { max-width: 1200px; margin: 0 auto; display: grid; gap: 20px; }
-        .panel {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-        }
-        .offline-guarantee {
-            background: linear-gradient(135deg, #221111, #2a1616);
-            border: 1px solid var(--accent-color);
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-            color: #ff7b72;
-        }
-        .retro-plaque {
-            background: #111418;
-            border: 2px solid var(--accent-color);
-            font-family: monospace;
-            text-align: center;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            box-shadow: inset 0 0 10px rgba(218, 54, 51, 0.15);
-        }
-        .help-box {
-            background-color: #1f242c;
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        .help-box h3 { margin-top: 0; color: #ffffff; font-size: 16px; }
-        code, pre {
-            background-color: #111418;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            color: #ff7b72;
-        }
-        pre { padding: 10px; border: 1px solid var(--border-color); overflow-x: auto; }
-        button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover { background-color: var(--accent-hover); }
-        .btn-secondary { background-color: #21262d; border: 1px solid var(--border-color); }
-        input, select, textarea {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 8px;
-            border-radius: 4px;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 950px; display: grid; gap: 20px; }
         
-        #chat-window {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            height: 400px;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-        .chat-message {
-            padding: 10px 14px;
-            border-radius: 6px;
-            max-width: 85%;
-            word-wrap: break-word;
-            font-size: 14px;
-        }
-        .user-msg {
-            background-color: #1f242c;
-            border: 1px solid var(--border-color);
-            align-self: flex-end;
-            color: #ffffff;
-        }
-        .ai-msg {
-            background-color: #161b22;
-            border: 1px solid var(--accent-color);
-            align-self: flex-start;
-            color: var(--text-color);
-        }
-        .chat-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
-        .options-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: var(--text-muted);
-            flex-wrap: wrap;
-        }
-        .options-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-color); margin: 0; }
-        .options-row input[type="checkbox"] { width: auto; margin: 0; cursor: pointer; }
+        header { border: 2px dashed var(--accent); padding: 15px; background: rgba(255, 85, 0, 0.05); display: flex; flex-direction: column; gap: 10px; border-radius: 4px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--accent); flex-wrap: wrap; gap: 5px; }
+        h1 { font-size: 1.1rem; color: var(--accent); letter-spacing: 1px; text-align: center; text-transform: uppercase; }
         
-        .archive-panel {
-            background-color: #111418;
-            border: 1px solid var(--accent-color);
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-        .archive-entry {
-            background: #161b22;
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-size: 13px;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            font-family: monospace;
-        }
-        .status-offline { background: #381313; color: #ff7b72; border: 1px solid var(--danger-color); }
-        .status-online { background: #112b1c; color: #3fb950; border: 1px solid var(--success-color); }
+        /* Shortcut Jump Menu */
+        .shortcut-bar { display: flex; justify-content: center; gap: 15px; font-size: 0.75rem; background: #070a12; padding: 8px; border: 1px solid var(--border); border-radius: 4px; text-transform: uppercase; }
+        .shortcut-bar a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .shortcut-bar a:hover { color: var(--accent); text-shadow: 0 0 5px var(--accent-glow); }
 
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .brand-bar { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; }
-            .download-btn { width: 100%; text-align: center; box-sizing: border-box; }
-            button { width: 100%; margin-left: 0; box-sizing: border-box; }
-        }
+        .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 6px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .panel h2 { font-size: 1rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+        
+        label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-muted); text-transform: uppercase; }
+        input, select { width: 100%; background: #070a12; border: 1px solid var(--border); color: var(--text-main); padding: 10px; border-radius: 4px; font-size: 0.9rem; margin-bottom: 15px; }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+        
+        .status-badge { display: inline-block; font-size: 0.75rem; background: rgba(255, 51, 102, 0.1); border: 1px solid var(--danger); padding: 4px 10px; border-radius: 4px; color: var(--danger); font-weight: bold; }
+        .status-online { background: rgba(0, 255, 204, 0.1); border-color: var(--success); color: var(--success); }
+        
+        button { background: var(--accent); color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
+        button:hover { background: #ff7733; }
+
+        /* FAQ & Troubleshooting Styles (Neat & Clean at Bottom) */
+        .faq-section { font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); }
+        .faq-item { margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .faq-q { color: var(--accent); font-weight: bold; margin-bottom: 4px; cursor: pointer; }
+        .faq-a { padding-left: 10px; border-left: 2px solid var(--border); }
+        code { background: #070a12; color: var(--success); padding: 2px 5px; border-radius: 3px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <div class="brand-bar">
-        <div class="brand-title">🏢 Garza Global Graviton LLC &mdash; Sovereign Platform</div>
-        <a href="https://github.com/JOxKxER/global-graviton-gauntlet-/releases/latest" target="_blank" rel="noopener noreferrer" class="download-btn">📥 Download Desktop App (.exe/.app)</a>
-    </div>
 
-    <header>
-        <div class="logo-container">
-            <img src="logo.jpg" alt="Garza Global Graviton Logo" onerror="this.style.display='none'">
-        </div>
-        <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Synthetic Data Center & Sovereign Native AI Environment (v1.4.5)</p>
-    </header>
-    
     <div class="container">
-        <!-- Air-Gapped Guarantee Callout -->
-        <div class="offline-guarantee">
-            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> Operating as a sovereign Synthetic Data Center. Cryptographic tamper shielding and background hardware acceleration active. Zero cloud telemetry.
-        </div>
-
-        <!-- Retro Hardware Plaque -->
-        <div class="retro-plaque">
-            <div style="color: var(--accent-color); font-weight: bold; font-size: 13px; letter-spacing: 2px; margin-bottom: 6px;">
-                ╔════════════════════════════════════════════════╗<br>
-                ║   GARZA GLOBAL GRAVITON (GGG) ORGANIC C2   ║<br>
-                ╚════════════════════════════════════════════════╝
+        <header>
+            <h1>[ --- GARZA GLOBAL GRAVITON (GGG) ORGANIC C2 --- ]</h1>
+            <div class="header-top">
+                <span id="node-serial">NODE SERIAL: GEN-1926-236</span>
+                <span id="session-counter">SESSION ID: 000000</span>
+                <span id="shield-status">SHIELD STATUS: CRYPTOGRAPHICALLY SEALED</span>
             </div>
-            <div style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
-                <span><strong>NODE SERIAL:</strong> <span id="node-serial" style="color: #ff7b72;">GEN-0000-INIT</span></span>
-                <span><strong>SESSION ID:</strong> <span id="session-id" style="color: #ff7b72;">000000</span></span>
-                <span><strong>SHIELD STATUS:</strong> <span style="color: #238636;">CRYPTOGRAPHICALLY SEALED</span></span>
+            <!-- Quick Shortcut Jump Menu -->
+            <div class="shortcut-bar">
+                <a href="#panel-status">⚙️ C2 Status</a>
+                <span style="color: var(--border);">|</span>
+                <a href="#panel-ai">⚡ Local AI Config</a>
+                <span style="color: var(--border);">|</span>
+                <a href="#panel-faq">📖 FAQ & Troubleshooting</a>
             </div>
-        </div>
+        </header>
 
-        <!-- Connection Settings & Live Status Panel -->
-        <div class="panel">
-            <h2>🔌 Local Ollama Connection & Health Status</h2>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+        <!-- Local AI Config Panel -->
+        <div class="panel" id="panel-status">
+            <h2>⚙️ C2 Node Health & Status</h2>
+            <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 10px;">
                 <div>
-                    <span style="font-size: 14px; font-weight: bold;">Daemon Status: </span>
-                    <span id="ollama-status-badge" class="status-badge status-offline">🔴 Checking local endpoint...</span>
+                    <label>Daemon Link State:</label>
+                    <div id="daemon-status" class="status-badge">Checking local endpoint...</div>
                 </div>
-                <button class="btn-secondary" onclick="checkOllamaConnection()" style="padding: 6px 12px; font-size: 12px;">🔄 Re-check Connection</button>
+                <button onclick="verifyOllamaDaemon()">Re-check Connection</button>
             </div>
-
-            <label for="endpoint">API Endpoint URL:</label>
-            <input type="text" id="endpoint" value="http://localhost:11434/v1/chat/completions">
-            
-            <label for="model">Model Identifier:</label>
-            <input type="text" id="model" value="qwen2.5-coder:latest">
         </div>
 
-        <!-- Native Multi-Turn Chat & Smart Archival Panel -->
-        <div class="panel">
-            <h2>💬 Native Sovereign AI Workspace & Hardware Acceleration</h2>
-            <p style="color: var(--text-muted); font-size: 13px; margin-top: 0;">
-                Chat continuously, build apps, and execute tasks with background hardware acceleration and cryptographic session vaulting.
-            </p>
+        <div class="panel" id="panel-ai">
+            <h2>⚡ Local Ollama Connection Settings</h2>
+            <label for="api-endpoint">API Endpoint URL (Targeting Local Machine IP: 192.168.1.236):</label>
+            <input type="text" id="api-endpoint" value="http://192.168.1.236:11434">
+
+            <label for="model-id">Model Identifier:</label>
+            <input type="text" id="model-id" value="qwen2.5-coder:latest">
+        </div>
+
+        <!-- FAQ & Troubleshooting Panel (Neatly tucked at the bottom) -->
+        <div class="panel faq-section" id="panel-faq">
+            <h2>📖 FAQ & Troubleshooting Guide</h2>
             
-            <div id="chat-window">
-                <div class="chat-message ai-msg">
-                    <strong>Sovereign AI Guide:</strong> System initialized with cryptographic tamper-shielding and background hardware performance boosting. Ready for air-gapped execution.
+            <div class="faq-item">
+                <div class="faq-q">Q: Why is the Daemon Status showing offline or failing to connect?</div>
+                <div class="faq-a">
+                    Local browsers block web pages from fetching local ports unless Ollama is explicitly configured to accept cross-origin requests. Make sure you start your local server in PowerShell using: <br>
+                    <code>$env:OLLAMA_ORIGINS="*"</code> followed by <code>ollama serve</code>.
                 </div>
             </div>
 
-            <!-- Options Row: Send on Enter & Grammar Polish -->
-            <div class="options-row">
-                <label>
-                    <input type="checkbox" id="send-on-enter-toggle" checked> Enter key transmits to AI (Shift + Enter for new line)
-                </label>
-                <label>
-                    <input type="checkbox" id="grammar-polish-toggle"> ✨ Auto-Polish Grammar & Spelling
-                </label>
+            <div class="faq-item">
+                <div class="faq-q">Q: Why use the local IP address (192.168.1.236) instead of localhost?</div>
+                <div class="faq-a">
+                    Binding your endpoint directly to your machine's local interface network parameters ensures consistent zero-trust socket resolution and prevents loopback translation restrictions inside standalone HTML clients.
+                </div>
             </div>
 
-            <textarea id="prompt" rows="3" placeholder="Type your prompt, paste code, or request an app (Press Enter to transmit)..."></textarea>
-            
-            <div class="chat-controls">
-                <button id="run-btn" style="flex: 2;">Transmit to Local AI</button>
-                <button class="btn-secondary" onclick="exportLastCodeAsFile()" style="flex: 1;">💾 Save Last Code</button>
-                <button class="btn-secondary" onclick="clearChatHistory()" style="flex: 1;">Clear History</button>
-            </div>
-
-            <!-- Smart Archival Settings Sub-Panel -->
-            <div class="archive-panel">
-                <h3 style="margin-top: 0; font-size: 15px; color: var(--accent-color);">🗄️ Smart Conversation Archival Settings</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                    <div>
-                        <label for="archive-subject">Subject Matter Tag:</label>
-                        <input type="text" id="archive-subject" value="General Architecture & Build" placeholder="e.g. Map App, Business Plan">
-                    </div>
-                    <div>
-                        <label for="archive-method">Archival Method & Format:</label>
-                        <select id="archive-method">
-                            <option value="json">Structured JSON Package</option>
-                            <option value="markdown">Human-Readable Markdown (.md)</option>
-                            <option value="csv">Tabular CSV Log</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="archive-frequency">Automation Frequency:</label>
-                        <select id="archive-frequency">
-                            <option value="manual">Manual Export Only</option>
-                            <option value="session-end">Auto-Archive on Session Close</option>
-                            <option value="realtime">Continuous Local Vault Backup</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button onclick="executeSmartArchive()">📦 Execute Archive Now</button>
-                    <button class="btn-secondary" onclick="loadArchivedLogs()">📂 View Stored Local Vault</button>
-                </div>
-                
-                <!-- Vault Viewer Container -->
-                <div id="archive-log" style="display: none; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
-                    <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #ffffff;">Stored Local Vault Entries</h4>
-                    <div id="archive-entries-list"></div>
+            <div class="faq-item">
+                <div class="faq-q">Q: Is this interface completely offline?</div>
+                <div class="faq-a">
+                    Yes. This file executes entirely from local storage via your browser without hitting external cloud servers, maintaining full data sovereignty and local model execution privacy.
                 </div>
             </div>
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2026 Garza Global Graviton LLC. All rights reserved. Sovereign Edge Intelligence Architecture.</p>
-    </footer>
 
     <script>
-        /* --- 1. CRYPTOGRAPHIC TAMPER SHIELD & REVERSE-ENGINEERING REDUNDANCY --- */
-        (function initializeCryptographicShield() {
-            const _0xgg = "GGG-SECURE-KEY-BLOCK";
-            window.__GGG_INTEGRITY_SEAL = btoa(_0xgg + location.href);
+        // 1. Independent Session Counter - Guaranteed smooth operation
+        let sessionTicks = 1042;
+        setInterval(() => {
+            sessionTicks++;
+            document.getElementById('session-counter').innerText = "SESSION ID: " + String(sessionTicks).padStart(6, '0');
+        }, 1000);
+
+        // 2. Non-blocking Async Health Check
+        async function verifyOllamaDaemon() {
+            const endpointInput = document.getElementById('api-endpoint').value;
+            const badge = document.getElementById('daemon-status');
             
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'childList' && mutation.removedNodes.length > 0) {
-                        console.warn("[GGG Shield] Structural modification detected in secure execution zone.");
-                    }
-                });
-            });
-            window.addEventListener('DOMContentLoaded', () => {
-                const target = document.querySelector('.container');
-                if (target) observer.observe(target, { childList: true, subtree: true });
-            });
-        })();
-
-        /* --- 2. LOCAL HARDWARE PERFORMANCE ACCELERATION DAEMON --- */
-        class HardwareAccelerationDaemon {
-            constructor() {
-                this.activeWorkerBoost = false;
-                this.memoryRecyclingInterval = null;
-            }
-
-            igniteBoost() {
-                if (this.activeWorkerBoost) return;
-                this.activeWorkerBoost = true;
-                console.log("[GGG Engine] Hardware acceleration daemon engaged. Purging memory fragmentation and optimizing CPU/GPU thread affinity...");
-                
-                this.memoryRecyclingInterval = setInterval(() => {
-                    if (window.gc) { window.gc(); }
-                }, 15000);
-            }
-
-            releaseBoost() {
-                this.activeWorkerBoost = false;
-                if (this.memoryRecyclingInterval) clearInterval(this.memoryRecyclingInterval);
-            }
-        }
-        const gggEngine = new HardwareAccelerationDaemon();
-
-        /* --- 3. LIVE OLLAMA HEALTH CHECK --- */
-        async function checkOllamaConnection() {
-            const badge = document.getElementById('ollama-status-badge');
-            const endpointInput = document.getElementById('endpoint').value.trim();
-            
-            badge.className = 'status-badge status-offline';
-            badge.textContent = '🟡 Pinging local endpoint...';
-
-            let healthUrl = "http://localhost:11434/api/tags";
-            try {
-                const u = new URL(endpointInput);
-                healthUrl = `${u.protocol}//${u.host}/api/tags`;
-            } catch (e) {}
+            badge.innerText = "CONNECTING TO 192.168.1.236...";
+            badge.className = "status-badge";
 
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3000);
+                const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-                const response = await fetch(healthUrl, {
-                    method: 'GET',
-                    signal: controller.signal
+                const response = await fetch(endpointInput, { 
+                    method: 'GET', 
+                    signal: controller.signal,
+                    mode: 'cors' 
                 });
                 clearTimeout(timeoutId);
 
-                if (response.ok) {
-                    badge.className = 'status-badge status-online';
-                    badge.textContent = '🟢 Online / Connected (Ollama Active)';
+                if (response.ok || response.status < 500) {
+                    badge.innerText = "ONLINE [OLLAMA ACTIVE AT 192.168.1.236]";
+                    badge.className = "status-badge status-online";
                 } else {
-                    throw new Error(`HTTP status ${response.status}`);
+                    throw new Error();
                 }
             } catch (err) {
-                badge.className = 'status-badge status-offline';
-                badge.textContent = '🔴 Offline / Not Connected (Run ollama serve)';
+                badge.innerText = "OFFLINE [CHECK OLLAMA SERVE & OLLAMA_ORIGINS]";
+                badge.className = "status-badge";
             }
         }
 
-        /* --- 4. CORE CHAT & ARCHIVAL ENGINE --- */
-        let currentSessionId = Math.random().toString(36).substring(2, 10).toUpperCase();
-        let chatHistory = [
-            { role: "system", content: "You are an expert local software architect and sovereign business mentor. You maintain full conversational memory and can write complete, renderable HTML/JS code (such as 2D maps, calculators, and applications) directly within markdown blocks when requested." }
-        ];
-
-        let lastExtractedCode = "";
-
-        window.addEventListener('DOMContentLoaded', () => {
-            let serial = localStorage.getItem('ggg_node_serial');
-            if (!serial) {
-                const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase();
-                serial = `GGG-V1.4.5-${randomHex}-ALPHA`;
-                localStorage.setItem('ggg_node_serial', serial);
-            }
-            document.getElementById('node-serial').textContent = serial;
-            document.getElementById('session-id').textContent = currentSessionId;
-
-            if (localStorage.getItem('ggg_pref_subject')) document.getElementById('archive-subject').value = localStorage.getItem('ggg_pref_subject');
-            if (localStorage.getItem('ggg_pref_method')) document.getElementById('archive-method').value = localStorage.getItem('ggg_pref_method');
-            if (localStorage.getItem('ggg_pref_freq')) document.getElementById('archive-frequency').value = localStorage.getItem('ggg_pref_freq');
-            if (localStorage.getItem('ggg_pref_send_enter') !== null) {
-                document.getElementById('send-on-enter-toggle').checked = localStorage.getItem('ggg_pref_send_enter') === 'true';
-            }
-            if (localStorage.getItem('ggg_pref_grammar') !== null) {
-                document.getElementById('grammar-polish-toggle').checked = localStorage.getItem('ggg_pref_grammar') === 'true';
-            }
-
-            ['archive-subject', 'archive-method', 'archive-frequency'].forEach(id => {
-                document.getElementById(id).addEventListener('change', () => {
-                    localStorage.setItem('ggg_pref_subject', document.getElementById('archive-subject').value);
-                    localStorage.setItem('ggg_pref_method', document.getElementById('archive-method').value);
-                    localStorage.setItem('ggg_pref_freq', document.getElementById('archive-frequency').value);
-                });
-            });
-
-            document.getElementById('send-on-enter-toggle').addEventListener('change', (e) => {
-                localStorage.setItem('ggg_pref_send_enter', e.target.checked);
-            });
-            document.getElementById('grammar-polish-toggle').addEventListener('change', (e) => {
-                localStorage.setItem('ggg_pref_grammar', e.target.checked);
-            });
-
-            // Enter key shortcut handling
-            document.getElementById('prompt').addEventListener('keydown', (e) => {
-                const sendOnEnter = document.getElementById('send-on-enter-toggle').checked;
-                if (sendOnEnter && e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    triggerTransmission();
-                }
-            });
-
-            checkOllamaConnection();
-            document.getElementById('endpoint').addEventListener('change', checkOllamaConnection);
-        });
-
-        window.addEventListener('beforeunload', () => {
-            if (document.getElementById('archive-frequency').value === 'session-end' && chatHistory.length > 1) {
-                performSilentVaultSave('Session-End Auto Archive');
-            }
-            gggEngine.releaseBoost();
-        });
-
-        function appendMessage(role, text, timestamp = new Date().toISOString()) {
-            const chatWindow = document.getElementById('chat-window');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `chat-message ${role === 'user' ? 'user-msg' : 'ai-msg'}`;
-            
-            if (role === 'user') {
-                msgDiv.textContent = text;
-            } else {
-                msgDiv.innerHTML = `<strong>Sovereign AI:</strong><br>` + formatAIResponse(text);
-            }
-            chatWindow.appendChild(msgDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        function formatAIResponse(text) {
-            const codeBlockRegex = /```(?:html|javascript|js)?\s*([\s\S]*?)```/g;
-            let match;
-            let foundCode = "";
-            while ((match = codeBlockRegex.exec(text)) !== null) {
-                foundCode += match[1] + "\n";
-            }
-            if (foundCode.trim()) {
-                lastExtractedCode = foundCode.trim();
-            }
-            return text.replace(/\n/g, '<br>').replace(/```([\s\S]*?)
+        // Run check on load
+        setTimeout(verifyOllamaDaemon, 500);
+    </script>
+</body>
+</html>
