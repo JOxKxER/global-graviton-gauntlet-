@@ -32,9 +32,7 @@
             border-bottom: 1px solid var(--accent-color);
             padding-bottom: 15px;
         }
-        .logo-container {
-            margin-bottom: 15px;
-        }
+        .logo-container { margin-bottom: 15px; }
         .logo-container img {
             max-width: 120px;
             height: auto;
@@ -54,12 +52,7 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        .brand-title {
-            font-weight: bold;
-            color: #ffffff;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-        }
+        .brand-title { font-weight: bold; color: #ffffff; font-size: 15px; letter-spacing: 0.5px; }
         .download-btn {
             background-color: var(--accent-color);
             color: white;
@@ -106,14 +99,6 @@
             margin-bottom: 15px;
             font-size: 14px;
         }
-        .mobile-box {
-            background-color: #221c11;
-            border-left: 4px solid var(--warning-color);
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            color: #f0cc70;
-        }
         code {
             background-color: #21262d;
             padding: 2px 6px;
@@ -143,17 +128,49 @@
             margin-top: 5px;
             margin-bottom: 15px;
         }
+        
+        /* Chat Interface Styles */
+        #chat-window {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            height: 450px;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .chat-message {
+            padding: 10px 14px;
+            border-radius: 6px;
+            max-width: 85%;
+            word-wrap: break-word;
+            font-size: 14px;
+        }
+        .user-msg {
+            background-color: #1f242c;
+            border: 1px solid var(--border-color);
+            align-self: flex-end;
+            color: #ffffff;
+        }
+        .ai-msg {
+            background-color: #161b22;
+            border: 1px solid var(--accent-color);
+            align-self: flex-start;
+            color: var(--text-color);
+        }
+        .chat-controls {
+            display: flex;
+            gap: 10px;
+        }
 
-        /* Mobile Responsive Media Queries */
         @media (max-width: 768px) {
             body { padding: 10px; }
             .brand-bar { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; }
             .download-btn { width: 100%; text-align: center; box-sizing: border-box; }
-            .retro-plaque div[style*="display: flex"] { flex-direction: column; gap: 6px; }
             button, .btn-secondary { width: 100%; margin-left: 0; margin-top: 5px; box-sizing: border-box; }
-            .panel { padding: 12px; }
-            h1 { font-size: 1.5rem; }
-            h2 { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -168,16 +185,16 @@
             <img src="logo.jpg" alt="Garza Global Graviton Logo" onerror="this.style.display='none'">
         </div>
         <h1>Global Graviton Gauntlet (#GGG)</h1>
-        <p>Synthetic Data Center & Sovereign Air-Gapped Edge Engine (v1.4.5)</p>
+        <p>Synthetic Data Center & Sovereign Native AI Environment (v1.4.5)</p>
     </header>
     
     <div class="container">
         <!-- Air-Gapped Guarantee Callout -->
         <div class="offline-guarantee">
-            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> This platform runs client-side and communicates <em>strictly</em> with your local machine's AI via loopback. No telemetry, no cloud servers, and zero data leakage. Fully operational offline.
+            🔒 <strong>100% OFFLINE & AIR-GAPPED GUARANTEE:</strong> Operating as a sovereign Synthetic Data Center. Conversations, code generation, and 2D map/app creation stay 100% local via Ollama loopback. Zero cloud telemetry.
         </div>
 
-        <!-- Retro Hardware Plaque & Metabolic Counter -->
+        <!-- Retro Hardware Plaque -->
         <div class="retro-plaque">
             <div style="color: var(--accent-color); font-weight: bold; font-size: 13px; letter-spacing: 2px; margin-bottom: 6px;">
                 ╔════════════════════════════════════════════════╗<br>
@@ -186,84 +203,52 @@
             </div>
             <div style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
                 <span><strong>NODE SERIAL:</strong> <span id="node-serial" style="color: #ff7b72;">GEN-0000-INIT</span></span>
-                <span><strong>METABOLIC TICKS:</strong> <span id="metabolic-counter" style="color: #ff7b72;">0</span></span>
                 <span><strong>CONTAINMENT:</strong> <span style="color: #ff7b72;">SECURE (AIR-GAPPED)</span></span>
+                <span><strong>MEMORY MODE:</strong> <span style="color: #238636;">MULTI-TURN ACTIVE</span></span>
             </div>
         </div>
 
-        <!-- Synthetic Data Center Architecture Explanation -->
+        <!-- Setup Assistant Panel -->
         <div class="panel" style="border: 1px solid var(--accent-color);">
-            <h2>🛸 What is the "Synthetic Data Center"?</h2>
-            <p style="color: var(--text-muted);">
-                Instead of relying on massive corporate cloud server farms, your edge computing software acts as a local <strong>Synthetic Data Center</strong>. It wraps around your local Ollama instance, managing zero-copy memory buffers, local execution pacing, and offline inference securely on your own hardware. This gives you high-performance AI execution with absolute data privacy and zero cloud overhead.
-            </p>
-        </div>
-
-        <!-- Detailed Beginner-Friendly Step-by-Step Setup Guide -->
-        <div class="panel" style="border: 1px solid var(--accent-color);">
-            <h2>📖 Beginner's Step-by-Step Guide: How to Set Up & Connect Your Local AI</h2>
-            <p style="color: var(--text-muted); margin-top: 5px;">
-                Because this platform operates 100% locally with zero cloud servers, your computer needs a local AI engine installed. Follow these exact instructions:
-            </p>
-            
+            <h2>📖 Sovereign Setup & Model Guide</h2>
             <div class="help-box">
-                <strong>Step 1: Download & Install Ollama (Free Local AI Engine)</strong><br>
-                Go to <a href="https://ollama.com" target="_blank" style="color: var(--accent-color); font-weight: bold;">ollama.com</a>, download the installer for your computer (Windows, Mac, or Linux), and run it to install Ollama.
+                <strong>Missing Model / 404 Error?</strong> If your local AI prompts fail, open your computer terminal and pull a code-capable model:<br>
+                <code>ollama pull qwen2.5-coder:latest</code> (or <code>ollama pull llama3.2:3b</code>)
             </div>
-
             <div class="help-box">
-                <strong>Step 2: How to Open Your Computer's Terminal & Download a Model</strong><br>
-                &bull; <strong>Windows:</strong> Press the Windows Key on your keyboard, type <code>cmd</code> or <code>PowerShell</code>, and press Enter.<br>
-                &bull; <strong>Mac:</strong> Press <code>Cmd + Spacebar</code>, type <code>Terminal</code>, and press Enter.<br>
-                Once the black terminal window opens, type this exact command and press <strong>Enter</strong> to download a lightweight AI model:<br>
-                <code>ollama pull llama3.2:3b</code>
-            </div>
-
-            <div class="help-box">
-                <strong>Step 3: Allow Browser Connection (CORS Fix)</strong><br>
-                Web browsers protect local ports for security. To allow this website to communicate with your computer's local AI:<br>
-                &bull; <strong>Mac / Linux:</strong> In your terminal, type <code>export OLLAMA_ORIGINS="*"</code> and press Enter before running Ollama.<br>
-                &bull; <strong>Windows:</strong> Search your Windows menu for <em>"Edit the system environment variables"</em>, click <strong>Environment Variables</strong>, click <strong>New</strong> under User variables, enter Variable name: <code>OLLAMA_ORIGINS</code> and Variable value: <code>*</code>, then click OK and restart Ollama.
-            </div>
-
-            <!-- Mobile User Guide Notice -->
-            <div class="mobile-box">
-                📱 <strong>Instructions for Mobile & Tablet Users:</strong><br>
-                Smartphones and tablets cannot run local desktop AI runtimes like Ollama natively. To use this web app on mobile:
-                <ol style="margin: 5px 0 0 20px; padding: 0;">
-                    <li>Ensure Ollama is running on your desktop/laptop computer on the <strong>same Wi-Fi network</strong>.</li>
-                    <li>In the <strong>Endpoint URL</strong> box below, replace <code>localhost</code> with your computer's local Wi-Fi IP address (e.g., <code>http://192.168.1.50:11434/...</code>).</li>
-                    <li>For easiest offline execution anywhere, download our official app package from the download button at the top of the page!</li>
-                </ol>
+                <strong>CORS Configuration:</strong> Ensure your local Ollama allows web browser connections by running your terminal with: <code>export OLLAMA_ORIGINS="*"</code> (Mac/Linux) or setting system environment variable <code>OLLAMA_ORIGINS=*</code> (Windows).
             </div>
         </div>
 
-        <!-- Local Connection Panel -->
+        <!-- Connection Settings -->
         <div class="panel">
-            <h2>🔌 Local AI Connection Assistant</h2>
-            <div class="help-box">
-                <strong>Connection Settings:</strong> Ensure your local Ollama server is running. You can test your connection or change the endpoint URL if connecting from mobile.
-            </div>
-            
-            <label for="endpoint">API Endpoint URL (Change to your computer's IP if on mobile):</label>
+            <h2>🔌 Local Connection Settings</h2>
+            <label for="endpoint">API Endpoint URL:</label>
             <input type="text" id="endpoint" value="http://localhost:11434/v1/chat/completions">
-        </div>
-
-        <!-- Harness Control Panel -->
-        <div class="panel">
-            <h2>Synthetic Data Center Control Panel</h2>
+            
             <label for="model">Model Identifier:</label>
-            <input type="text" id="model" value="llama3.2:3b">
-
-            <label for="prompt">Test Prompt / Task / Code Generation:</label>
-            <textarea id="prompt" rows="4">Act as a local Synthetic Data Center supervisor. Analyze this node and generate an optimized local execution script.</textarea>
-
-            <button id="run-btn">Execute Local Synthetic Inference</button>
+            <input type="text" id="model" value="qwen2.5-coder:latest">
         </div>
 
+        <!-- Native Multi-Turn Chat & App Building Interface -->
         <div class="panel">
-            <h2>Live Console Output / Execution Log</h2>
-            <pre id="output" style="background: var(--bg-color); padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; min-height: 120px; white-space: pre-wrap;">Ready for offline execution...</pre>
+            <h2>💬 Native Sovereign AI Workspace & App Builder</h2>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 0;">
+                Have a continuous conversation, brainstorm business ideas, or ask the AI to build functional 2D maps, visual components, or software code live on-site.
+            </p>
+            
+            <div id="chat-window">
+                <div class="chat-message ai-msg">
+                    <strong>Sovereign AI Guide:</strong> System initialized. I am your air-gapped co-pilot. We maintain full chat memory. Ask me to draft business models, analyze personal ideas, or write complete applications and 2D maps right here on your machine.
+                </div>
+            </div>
+
+            <textarea id="prompt" rows="3" placeholder="Type your message, prompt, or app-building request (e.g., 'Build a simple interactive 2D map using HTML Canvas')..."></textarea>
+            
+            <div class="chat-controls">
+                <button id="run-btn" style="flex: 2;">Transmit to Local AI</button>
+                <button class="btn-secondary" onclick="clearChatHistory()" style="flex: 1;">Clear Conversation</button>
+            </div>
         </div>
     </div>
 
@@ -272,6 +257,11 @@
     </footer>
 
     <script>
+        // Persistent Chat History Array
+        let chatHistory = [
+            { role: "system", content: "You are an expert local software architect, sovereign business mentor, and creative builder. You maintain full conversational memory and can write complete, renderable HTML/JS code (such as 2D maps, UI layouts, and apps) directly within your responses when requested." }
+        ];
+
         window.addEventListener('DOMContentLoaded', () => {
             let serial = localStorage.getItem('ggg_node_serial');
             if (!serial) {
@@ -280,25 +270,58 @@
                 localStorage.setItem('ggg_node_serial', serial);
             }
             document.getElementById('node-serial').textContent = serial;
-
-            let ticks = parseInt(localStorage.getItem('ggg_metabolic_ticks') || '0', 10);
-            setInterval(() => {
-                ticks++;
-                document.getElementById('metabolic-counter').textContent = ticks.toLocaleString();
-                if (ticks % 10 === 0) {
-                    localStorage.setItem('ggg_metabolic_ticks', ticks.toString());
-                }
-            }, 1000);
         });
 
-        document.getElementById('run-btn').addEventListener('click', async () => {
-            const output = document.getElementById('output');
-            const endpoint = document.getElementById('endpoint').value.trim();
-            const model = document.getElementById('model').value;
-            const prompt = document.getElementById('prompt').value;
+        function appendMessage(role, text) {
+            const chatWindow = document.getElementById('chat-window');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message ${role === 'user' ? 'user-msg' : 'ai-msg'}`;
+            
+            if (role === 'user') {
+                msgDiv.textContent = text;
+            } else {
+                // Support basic formatting for code and text output
+                msgDiv.innerHTML = `<strong>Sovereign AI:</strong><br>` + text.replace(/\n/g, '<br>');
+            }
+            
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
 
-            output.textContent = "Executing local synthetic inference pipeline...";
-            const startTime = performance.now();
+        function clearChatHistory() {
+            chatHistory = [chatHistory[0]]; // Keep system prompt
+            document.getElementById('chat-window').innerHTML = `
+                <div class="chat-message ai-msg">
+                    <strong>Sovereign AI Guide:</strong> Conversation memory cleared. Ready for your next objective.
+                </div>
+            `;
+        }
+
+        document.getElementById('run-btn').addEventListener('click', async () => {
+            const endpoint = document.getElementById('endpoint').value.trim();
+            const model = document.getElementById('model').value.trim();
+            const promptInput = document.getElementById('prompt');
+            const userText = promptInput.value.trim();
+            const btn = document.getElementById('run-btn');
+
+            if (!userText) return;
+
+            // Append user message to UI and history
+            appendMessage('user', userText);
+            chatHistory.push({ role: "user", content: userText });
+            promptInput.value = '';
+            
+            btn.disabled = true;
+            btn.textContent = 'Processing Locally...';
+
+            const aiMsgId = 'ai-response-' + Date.now();
+            const chatWindow = document.getElementById('chat-window');
+            const placeholderDiv = document.createElement('div');
+            placeholderDiv.className = 'chat-message ai-msg';
+            placeholderDiv.id = aiMsgId;
+            placeholderDiv.innerHTML = `<strong>Sovereign AI:</strong><br><em>Computing locally via air-gapped synthetic data center...</em>`;
+            chatWindow.appendChild(placeholderDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
 
             try {
                 const response = await fetch(endpoint, {
@@ -306,21 +329,27 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         model: model,
-                        messages: [{ role: "user", content: prompt }],
+                        messages: chatHistory,
                         stream: false
                     })
                 });
 
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}. Make sure Ollama is running and model '${model}' is pulled (run: ollama pull ${model})`);
+                }
 
                 const data = await response.json();
-                const endTime = performance.now();
-                const latency = ((endTime - startTime) / 1000).toFixed(2);
-                const reply = data.choices?.[0]?.message?.content || JSON.stringify(data);
+                const reply = data.choices?.[0]?.message?.content || data.response || JSON.stringify(data);
 
-                output.textContent = `Execution Mode: AIR-GAPPED SYNTHETIC DC | Latency: ${latency}s\n\nResult:\n${reply}`;
+                // Update history and UI
+                chatHistory.push({ role: "assistant", content: reply });
+                placeholderDiv.innerHTML = `<strong>Sovereign AI:</strong><br>` + reply.replace(/\n/g, '<br>');
             } catch (err) {
-                output.textContent = `Connection Error: ${err.message}\n\nEnsure Ollama is running, OLLAMA_ORIGINS="*" is configured, and your endpoint URL is correct!`;
+                placeholderDiv.innerHTML = `<strong>Connection Error:</strong><br>${err.message}<br><br><em>Need help? Make sure Ollama is running and OLLAMA_ORIGINS="*" is set.</em>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Transmit to Local AI';
+                chatWindow.scrollTop = chatWindow.scrollHeight;
             }
         });
     </script>
