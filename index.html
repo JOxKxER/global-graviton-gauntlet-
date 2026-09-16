@@ -43,8 +43,8 @@
         button:hover { background: #ff7733; }
 
         /* Chat Window Styles */
-        .chat-box { background: #05070c; border: 1px solid var(--border); border-radius: 4px; padding: 15px; height: 250px; overflow-y: auto; font-size: 0.85rem; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { padding: 8px 12px; border-radius: 4px; line-height: 1.4; max-width: 85%; }
+        .chat-box { background: #05070c; border: 1px solid var(--border); border-radius: 4px; padding: 15px; height: 280px; overflow-y: auto; font-size: 0.85rem; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { padding: 8px 12px; border-radius: 4px; line-height: 1.4; max-width: 85%; white-space: pre-wrap; }
         .msg-user { background: rgba(255, 85, 0, 0.15); border: 1px solid var(--accent); align-self: flex-end; color: var(--text-main); }
         .msg-ai { background: #0d1424; border: 1px solid var(--border); align-self: flex-start; color: var(--success); }
 
@@ -99,11 +99,11 @@
             <input type="text" id="model-id" value="qwen2.5-coder:latest">
         </div>
 
-        <!-- Live Sovereign AI Chat Panel -->
+        <!-- Live Sovereign AI Chat Panel with Context Memory -->
         <div class="panel" id="panel-chat">
-            <h2>💬 Sovereign Local AI Workspace</h2>
+            <h2>💬 Sovereign Local AI Workspace (Contextual Memory Active)</h2>
             <div id="chat-output" class="chat-box">
-                <div class="chat-msg msg-ai">[SYSTEM] Connected to local Ollama instance. Type a command or query below to execute inference offline.</div>
+                <div class="chat-msg msg-ai">[SYSTEM] Connected to local Ollama instance with conversation history enabled.</div>
             </div>
             <textarea id="user-prompt" rows="2" placeholder="Enter prompt for local AI execution..."></textarea>
             <button onclick="sendPromptToAI()">Transmit Prompt to Local Node</button>
@@ -154,6 +154,9 @@
             document.getElementById('session-counter').innerText = "SESSION ID: " + String(sessionTicks).padStart(6, '0');
         }, 1000);
 
+        // Array to store active conversation context history
+        let chatHistory = [];
+
         // 2. Non-blocking Async Health Check
         async function verifyOllamaDaemon() {
             const endpointInput = document.getElementById('api-endpoint').value;
@@ -185,24 +188,25 @@
             }
         }
 
-        // 3. Send Prompt to Local Ollama Instance
+        // 3. Send Prompt with Full Context Array to Ollama Chat API
         async function sendPromptToAI() {
             const promptInput = document.getElementById('user-prompt');
             const chatOutput = document.getElementById('chat-output');
-            const endpoint = document.getElementById('api-endpoint').value + '/api/generate';
+            const endpoint = document.getElementById('api-endpoint').value + '/api/chat';
             const modelId = document.getElementById('model-id').value;
             const promptText = promptInput.value.trim();
 
             if (!promptText) return;
 
-            // Append User Message
+            // Append User Message to UI and history array
             chatOutput.innerHTML += `<div class="chat-msg msg-user">USER: ${promptText}</div>`;
+            chatHistory.push({ role: 'user', content: promptText });
             promptInput.value = '';
             chatOutput.scrollTop = chatOutput.scrollHeight;
 
             // Append Loading Node State
             const loadingId = 'ai-loading-' + Date.now();
-            chatOutput.innerHTML += `<div id="${loadingId}" class="chat-msg msg-ai">PROCESSING ON LOCAL NODE...</div>`;
+            chatOutput.innerHTML += `<div id="${loadingId}" class="chat-msg msg-ai">PROCESSING CONTEXT VECTOR...</div>`;
             chatOutput.scrollTop = chatOutput.scrollHeight;
 
             try {
@@ -211,15 +215,19 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         model: modelId,
-                        prompt: promptText,
+                        messages: chatHistory,
                         stream: false
                     })
                 });
 
                 const data = await response.json();
-                document.getElementById(loadingId).innerText = `AI (${modelId}): ${data.response}`;
+                const aiReply = data.message.content;
+
+                // Update UI with AI response and push to conversation history
+                document.getElementById(loadingId).innerText = `AI (${modelId}): ${aiReply}`;
+                chatHistory.push({ role: 'assistant', content: aiReply });
             } catch (err) {
-                document.getElementById(loadingId).innerText = `[ERROR]: Failed to reach local Ollama endpoint. Ensure daemon is online.`;
+                document.getElementById(loadingId).innerText = `[ERROR]: Failed to reach local Ollama chat endpoint. Ensure daemon is online.`;
             }
             chatOutput.scrollTop = chatOutput.scrollHeight;
         }
