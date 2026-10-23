@@ -3,237 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garza Global Graviton (GGG) - Local Edge C2</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src http://localhost:11434 http://localhost:11834 http://127.0.0.1:11434 http://127.0.0.1:11834; base-uri 'none'; form-action 'none'; object-src 'none'">
+    <meta name="color-scheme" content="dark">
+    <meta name="referrer" content="no-referrer">
+    <title>GGG Sovereign Edge Daemon v1.4.5 — Garza Global Graviton LLC</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --panel-bg: #131c2e;
+            --bg: #0b0f19;
+            --panel: #131c2e;
+            --panel-dark: #070a12;
             --accent: #ff5500;
-            --accent-glow: rgba(255, 85, 0, 0.2);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --accent-dim: #cc4400;
+            --accent-glow: rgba(255, 85, 0, 0.18);
+            --teal: #00ffcc;
+            --red: #ff3366;
+            --text: #f3f4f6;
+            --muted: #9ca3af;
             --border: #2a1f1d;
-            --danger: #ff3366;
-            --success: #00ffcc;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; scroll-behavior: smooth; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 950px; display: grid; gap: 20px; }
-        
-        header { border: 2px dashed var(--accent); padding: 15px; background: rgba(255, 85, 0, 0.05); display: flex; flex-direction: column; gap: 10px; border-radius: 4px; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--accent); flex-wrap: wrap; gap: 5px; }
-        h1 { font-size: 1.1rem; color: var(--accent); letter-spacing: 1px; text-align: center; text-transform: uppercase; }
-        
-        /* Shortcut Jump Menu */
-        .shortcut-bar { display: flex; justify-content: center; gap: 15px; font-size: 0.75rem; background: #070a12; padding: 8px; border: 1px solid var(--border); border-radius: 4px; text-transform: uppercase; }
-        .shortcut-bar a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-        .shortcut-bar a:hover { color: var(--accent); text-shadow: 0 0 5px var(--accent-glow); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh; padding: 24px 16px;
+            display: flex; flex-direction: column; align-items: center;
+            line-height: 1.6;
+        }
+        a { color: var(--accent); }
+        code, .mono {
+            font-family: inherit; background: var(--panel-dark);
+            color: var(--teal); padding: 2px 6px; border-radius: 3px; font-size: 0.85em;
+        }
+        .wrap { width: 100%; max-width: 900px; display: grid; gap: 28px; }
 
-        .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 6px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        .panel h2 { font-size: 1rem; margin-bottom: 15px; color: var(--text-main); text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
-        
-        label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-muted); text-transform: uppercase; }
-        input, select, textarea { width: 100%; background: #070a12; border: 1px solid var(--border); color: var(--text-main); padding: 10px; border-radius: 4px; font-size: 0.9rem; margin-bottom: 15px; }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
-        
-        .status-badge { display: inline-block; font-size: 0.75rem; background: rgba(255, 51, 102, 0.1); border: 1px solid var(--danger); padding: 4px 10px; border-radius: 4px; color: var(--danger); font-weight: bold; }
-        .status-online { background: rgba(0, 255, 204, 0.1); border-color: var(--success); color: var(--success); }
-        
-        button { background: var(--accent); color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
-        button:hover { background: #ff7733; }
+        /* ---------- terminal frame ---------- */
+        .term {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 6px; box-shadow: 0 4px 24px rgba(0,0,0,0.55);
+            overflow: hidden;
+        }
+        .term-bar {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--panel-dark); padding: 8px 14px;
+            border-bottom: 1px solid var(--border); font-size: 0.7rem;
+            color: var(--muted); letter-spacing: 1px; text-transform: uppercase;
+        }
+        .term-dot { width: 9px; height: 9px; border-radius: 50%; }
+        .term-dot.r { background: var(--red); } .term-dot.o { background: var(--accent); } .term-dot.g { background: var(--teal); }
+        .term-body { padding: 20px; }
 
-        /* Chat Window Styles */
-        .chat-box { background: #05070c; border: 1px solid var(--border); border-radius: 4px; padding: 15px; height: 280px; overflow-y: auto; font-size: 0.85rem; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { padding: 8px 12px; border-radius: 4px; line-height: 1.4; max-width: 85%; white-space: pre-wrap; }
-        .msg-user { background: rgba(255, 85, 0, 0.15); border: 1px solid var(--accent); align-self: flex-end; color: var(--text-main); }
-        .msg-ai { background: #0d1424; border: 1px solid var(--border); align-self: flex-start; color: var(--success); }
+        /* ---------- hero ---------- */
+        header.hero {
+            border: 2px dashed var(--accent); border-radius: 6px;
+            background: linear-gradient(180deg, rgba(255,85,0,0.06), transparent 60%);
+            padding: 28px 24px; text-align: center;
+        }
+        .hero-tag { font-size: 0.72rem; letter-spacing: 0.35em; color: var(--accent); text-transform: uppercase; }
+        .hero h1 { font-size: 1.5rem; letter-spacing: 1px; margin: 10px 0 6px; text-transform: uppercase; }
+        .hero h1 .v { color: var(--accent); }
+        .hero-sub { color: var(--muted); font-size: 0.85rem; max-width: 620px; margin: 0 auto 18px; }
+        .binary-chip {
+            display: inline-block; background: var(--panel-dark); border: 1px solid var(--border);
+            border-radius: 4px; padding: 8px 14px; font-size: 0.8rem; color: var(--teal); margin-bottom: 18px;
+        }
+        .hero-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .hero-badges span { border: 1px solid var(--border); background: var(--panel); padding: 5px 12px; border-radius: 20px; color: var(--muted); }
+        .hero-badges span b { color: var(--teal); font-weight: bold; }
 
-        /* FAQ & Troubleshooting Styles */
-        .faq-section { font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); }
-        .faq-item { margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
-        .faq-q { color: var(--accent); font-weight: bold; margin-bottom: 4px; }
-        .faq-a { padding-left: 10px; border-left: 2px solid var(--border); }
-        code { background: #070a12; color: var(--success); padding: 2px 5px; border-radius: 3px; font-size: 0.8rem; }
+        /* ---------- sections ---------- */
+        section h2 {
+            font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--accent); margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        section h2::before { content: ">"; color: var(--teal); }
+        .section-sub { color: var(--muted); font-size: 0.82rem; margin-bottom: 16px; }
+
+        .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+        .card {
+            background: var(--panel-dark); border: 1px solid var(--border); border-radius: 5px;
+            padding: 16px; transition: border-color 0.2s;
+        }
+        .card:hover { border-color: var(--accent); }
+        .card h3 { font-size: 0.8rem; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .card h3 .glyph { color: var(--accent); margin-right: 6px; }
+        .card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+
+        /* ---------- download ---------- */
+        .dl-cta {
+            display: block; text-align: center; text-decoration: none;
+            background: var(--accent); color: #000; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.9rem;
+            padding: 16px; border-radius: 5px; margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+        .dl-cta:hover { background: var(--accent-dim); }
+        .dl-meta { text-align: center; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+
+        footer { text-align: center; font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; padding: 10px 0 4px; }
+        footer .pulse { color: var(--teal); }
+
+        /* ---------- Mobile Media Queries ---------- */
+        @media (max-width: 768px) {
+            body { padding: 12px 8px; }
+            .wrap { max-width: 100%; gap: 16px; }
+            header.hero { padding: 20px 14px; }
+            .hero h1 { font-size: 1.2rem; }
+            .hero-badges { gap: 6px; }
+            .hero-badges span { padding: 4px 8px; font-size: 0.62rem; }
+            .grid3 { grid-template-columns: 1fr; }
+            .dl-cta { font-size: 0.8rem; padding: 14px 10px; letter-spacing: 0.1em; }
+        }
     </style>
 </head>
 <body>
+<div class="wrap">
 
-    <div class="container">
-        <header>
-            <h1>[ --- GARZA GLOBAL GRAVITON (GGG) ORGANIC C2 --- ]</h1>
-            <div class="header-top">
-                <span id="node-serial">NODE SERIAL: GEN-1926-236</span>
-                <span id="session-counter">SESSION ID: 000000</span>
-                <span id="shield-status">SHIELD STATUS: CRYPTOGRAPHICALLY SEALED</span>
-            </div>
-            <!-- Quick Shortcut Jump Menu -->
-            <div class="shortcut-bar">
-                <a href="#panel-status">⚙️ C2 Status</a>
-                <span style="color: var(--border);">|</span>
-                <a href="#panel-ai">⚡ Local AI Config</a>
-                <span style="color: var(--border);">|</span>
-                <a href="#panel-chat">💬 Sovereign Chat</a>
-                <span style="color: var(--border);">|</span>
-                <a href="#panel-faq">📖 FAQ</a>
-            </div>
-        </header>
-
-        <!-- Local AI Config Panel -->
-        <div class="panel" id="panel-status">
-            <h2>⚙️ C2 Node Health & Status</h2>
-            <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <div>
-                    <label>Daemon Link State:</label>
-                    <div id="daemon-status" class="status-badge">Checking local endpoint...</div>
-                </div>
-                <button onclick="verifyOllamaDaemon()">Re-check Connection</button>
-            </div>
+    <header class="term hero">
+        <div class="hero-tag">[ STANDALONE &bull; LOOPBACK &bull; SEALED ]</div>
+        <h1>GGG Sovereign Edge Daemon <span class="v">v1.4.5</span></h1>
+        <p class="hero-sub">A single self-contained binary. No installer, no account, no cloud, no telemetry — a Synthetic Data Center that lives entirely on your hardware and answers only to you.</p>
+        <div class="binary-chip">ggg-daemon.exe &bull; 8.2 MB &bull; zero dependencies</div>
+        <div class="hero-badges">
+            <span>Arch: <b>127.0.0.1 Loopback Only</b></span>
+            <span>Proof: <b>HMAC-SHA256 Node Brand</b></span>
+            <span>Telemetry: <b>None, by Construction</b></span>
         </div>
+    </header>
 
-        <div class="panel" id="panel-ai">
-            <h2>⚡ Local Ollama Connection Settings</h2>
-            <label for="api-endpoint">API Endpoint URL (Targeting Local Machine IP: 192.168.1.236):</label>
-            <input type="text" id="api-endpoint" value="http://192.168.1.236:11434">
-
-            <label for="model-id">Model Identifier:</label>
-            <input type="text" id="model-id" value="qwen2.5-coder:latest">
+    <section class="term">
+        <div class="term-bar">
+            <span class="term-dot r"></span>
+            <span class="term-dot o"></span>
+            <span class="term-dot g"></span>
+            <span>Deployment Portal &bull; v1.4.5 Release</span>
         </div>
-
-        <!-- Live Sovereign AI Chat Panel with Context Memory -->
-        <div class="panel" id="panel-chat">
-            <h2>💬 Sovereign Local AI Workspace (Contextual Memory Active)</h2>
-            <div id="chat-output" class="chat-box">
-                <div class="chat-msg msg-ai">[SYSTEM] Connected to local Ollama instance with conversation history enabled.</div>
-            </div>
-            <textarea id="user-prompt" rows="2" placeholder="Enter prompt for local AI execution..."></textarea>
-            <button onclick="sendPromptToAI()">Transmit Prompt to Local Node</button>
+        <div class="term-body">
+            <h2>Download Sovereign Edge</h2>
+            <p class="section-sub">Get the verified standalone release bundle for real-world desktop deployment.</p>
+            <a class="dl-cta" href="https://github.com/JOxKxER/global-graviton-gauntlet-/releases/download/v1.4.5/ggg_sovereign_edge_v1.4.5.zip">Download Sovereign Edge v1.4.5 (.zip)</a>
+            <div class="dl-meta">SHA256: f14606b082013a8b959aa86d2aeb9764ed08d94ae7f13e7cbe4423fb82e60dea</div>
         </div>
+    </section>
 
-        <!-- FAQ & Troubleshooting Panel -->
-        <div class="panel faq-section" id="panel-faq">
-            <h2>📖 FAQ & Troubleshooting Guide</h2>
-            
-            <div class="faq-item">
-                <div class="faq-q">Q: How do I optionally have Ollama run and power AI processing locally?</div>
-                <div class="faq-a">
-                    To allow this standalone web interface to optionally interface with your local model compute engine, launch PowerShell and initialize Ollama with CORS permissions enabled:<br>
-                    <code>$env:OLLAMA_ORIGINS="*"</code><br>
-                    <code>ollama serve</code><br>
-                    Once active, the daemon status above will turn green, enabling your browser client to seamlessly pass context to your local model offline.
-                </div>
-            </div>
+    <footer>
+        Garza Global Graviton LLC &bull; <span class="pulse">&bull;</span> Air-Gapped Sovereign Node Active
+    </footer>
 
-            <div class="faq-item">
-                <div class="faq-q">Q: Why is the Daemon Status showing offline?</div>
-                <div class="faq-a">
-                    Browsers block local scripts from talking to background ports unless the origin environment variable is open. Make sure <code>ollama serve</code> is running in your background terminal.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Q: Why use the local IP address (192.168.1.236) instead of localhost?</div>
-                <div class="faq-a">
-                    Targeting your machine's physical network IP adapter guarantees correct socket resolution across local boundary policies without triggering loopback blockages in static HTML previews.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Q: Is this node completely private and offline?</div>
-                <div class="faq-a">
-                    Yes. All execution loops run locally on hardware without routing telemetry or state data through external cloud gateways.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 1. Independent Session Counter - Guaranteed smooth operation
-        let sessionTicks = 1042;
-        setInterval(() => {
-            sessionTicks++;
-            document.getElementById('session-counter').innerText = "SESSION ID: " + String(sessionTicks).padStart(6, '0');
-        }, 1000);
-
-        // Array to store active conversation context history
-        let chatHistory = [];
-
-        // 2. Non-blocking Async Health Check
-        async function verifyOllamaDaemon() {
-            const endpointInput = document.getElementById('api-endpoint').value;
-            const badge = document.getElementById('daemon-status');
-            
-            badge.innerText = "CONNECTING TO 192.168.1.236...";
-            badge.className = "status-badge";
-
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 2000);
-
-                const response = await fetch(endpointInput, { 
-                    method: 'GET', 
-                    signal: controller.signal,
-                    mode: 'cors' 
-                });
-                clearTimeout(timeoutId);
-
-                if (response.ok || response.status < 500) {
-                    badge.innerText = "ONLINE [OLLAMA ACTIVE AT 192.168.1.236]";
-                    badge.className = "status-badge status-online";
-                } else {
-                    throw new Error();
-                }
-            } catch (err) {
-                badge.innerText = "OFFLINE [RUN 'ollama serve' WITH OLLAMA_ORIGINS=*]";
-                badge.className = "status-badge";
-            }
-        }
-
-        // 3. Send Prompt with Full Context Array to Ollama Chat API
-        async function sendPromptToAI() {
-            const promptInput = document.getElementById('user-prompt');
-            const chatOutput = document.getElementById('chat-output');
-            const endpoint = document.getElementById('api-endpoint').value + '/api/chat';
-            const modelId = document.getElementById('model-id').value;
-            const promptText = promptInput.value.trim();
-
-            if (!promptText) return;
-
-            // Append User Message to UI and history array
-            chatOutput.innerHTML += `<div class="chat-msg msg-user">USER: ${promptText}</div>`;
-            chatHistory.push({ role: 'user', content: promptText });
-            promptInput.value = '';
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-
-            // Append Loading Node State
-            const loadingId = 'ai-loading-' + Date.now();
-            chatOutput.innerHTML += `<div id="${loadingId}" class="chat-msg msg-ai">PROCESSING CONTEXT VECTOR...</div>`;
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: modelId,
-                        messages: chatHistory,
-                        stream: false
-                    })
-                });
-
-                const data = await response.json();
-                const aiReply = data.message.content;
-
-                // Update UI with AI response and push to conversation history
-                document.getElementById(loadingId).innerText = `AI (${modelId}): ${aiReply}`;
-                chatHistory.push({ role: 'assistant', content: aiReply });
-            } catch (err) {
-                document.getElementById(loadingId).innerText = `[ERROR]: Failed to reach local Ollama chat endpoint. Ensure daemon is online.`;
-            }
-            chatOutput.scrollTop = chatOutput.scrollHeight;
-        }
-
-        // Run check on load
-        setTimeout(verifyOllamaDaemon, 500);
-    </script>
+</div>
 </body>
 </html>
